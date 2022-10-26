@@ -1,12 +1,9 @@
-import 'package:final_project/Home.dart';
+import 'package:final_project/HomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:final_project/Modify.dart';
-import 'package:final_project/profile.dart';
-import 'Product_options.dart';
-import 'FirebaseAction.dart';
-import 'Login.dart';
-import 'Settings.dart';
+import './Firebase/FirebaseAction.dart';
+import 'LoginPage.dart';
+import 'SettingsPage.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -43,20 +40,20 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             )),
-            drawerScrimColor: Colors.black38,
-            drawer: const NavigationDrawer(),
-            body: Column(
+        drawerScrimColor: Colors.black38,
+        drawer: const NavigationDrawer(),
+        body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                'Profile',
-                style: TextStyle(
+          children: [
+            Text(
+              'Profile',
+              style: TextStyle(
                   fontFamily: 'Bellota',
                   fontSize: 35,
                   color: Colors.lightBlueAccent,
                   fontWeight: FontWeight.bold),
-              ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 50),
               child: Form(

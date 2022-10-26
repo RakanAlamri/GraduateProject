@@ -1,13 +1,9 @@
-import 'package:final_project/Home.dart';
-import 'package:final_project/Login.dart';
+import 'package:final_project/HomePage.dart';
 import 'package:final_project/Modify.dart';
-import 'package:final_project/profile.dart';
+import 'package:final_project/ProfileNavigationDrawer.dart';
 import 'package:flutter/material.dart';
 
-import 'Settings.dart';
-
 class Product_options extends StatefulWidget {
-
   @override
   State<Product_options> createState() => _Product_optionsState();
 }
@@ -51,9 +47,9 @@ class _Product_optionsState extends State<Product_options> {
                   child: MaterialButton(
                     onPressed: () {
                       Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Modify()),
-                              );
+                        context,
+                        MaterialPageRoute(builder: (context) => Modify()),
+                      );
                     },
                     child: Text(
                       'Add new auction',
@@ -116,7 +112,7 @@ class _Product_optionsState extends State<Product_options> {
             ),
           ),
           drawerScrimColor: Colors.black38,
-          drawer: const NavigationDrawer(),
+          drawer: const ProfileNavigationDrawer(),
           bottomNavigationBar: BottomNavigationBar(
             backgroundColor: Colors.white,
             currentIndex: _currentIndex,
@@ -137,11 +133,11 @@ class _Product_optionsState extends State<Product_options> {
             onTap: (index) {
               setState(() {
                 _currentIndex = index;
-                if (_currentIndex == 0){
+                if (_currentIndex == 0) {
                   Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Home()),
-                              );
+                    context,
+                    MaterialPageRoute(builder: (context) => Home()),
+                  );
                 }
               });
             },
@@ -150,131 +146,4 @@ class _Product_optionsState extends State<Product_options> {
       ),
     );
   }
-}
-
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) => Drawer(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              buildHeader(context),
-              buildMenuItems(context),
-            ],
-          ),
-        ),
-      );
-  Widget buildHeader(BuildContext context) => Container(
-        color: Colors.lightBlueAccent,
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top,
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 52,
-              backgroundImage: NetworkImage(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT25dmRWW9XDVDEfjggD1OzyJAsyox9ZWHSLn8-SiwNb3csMCSzOefYpKHa4m6-KfQf4g&usqp=CAU"),
-            ),
-            Column(
-              children: [
-                Text(
-                  'Yazeed Aloraini',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                Text(
-                  'yazeed@gmail.com',
-                  style: TextStyle(fontSize: 12, color: Colors.white),
-                ),
-              ],
-            ),
-          ],
-        ),
-      );
-  Widget buildMenuItems(BuildContext context) => Column(
-        children: [
-          ListTile(
-            leading: const Icon(
-              Icons.home_filled,
-              color: Colors.lightBlueAccent,
-            ),
-            title: const Text('Home'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Home()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.person,
-              color: Colors.lightBlueAccent,
-            ),
-            title: const Text('Profile'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Profile()),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(
-              Icons.star,
-              color: Colors.lightBlueAccent,
-            ),
-            title: Text('Auction House'),
-            onTap: () {
-              print('side auction house is working');
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.list_alt,
-              color: Colors.lightBlueAccent,
-            ),
-            title: Text('Bids'),
-            onTap: () {
-              print('side bids is working');
-            },
-          ),
-          SizedBox(
-            height: 300,
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.settings,
-              color: Colors.lightBlueAccent,
-            ),
-            title: Text('Settings'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Settings()),
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.logout,
-              color: Colors.lightBlueAccent,
-            ),
-            title: Text('Log Out'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Login()),
-              );
-            },
-          ),
-        ],
-      );
 }

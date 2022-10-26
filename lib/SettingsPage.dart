@@ -1,80 +1,53 @@
-import 'package:final_project/Modify.dart';
-import 'package:final_project/profile.dart';
+import 'package:final_project/HomePage.dart';
+import 'package:final_project/LoginPage.dart';
+import 'package:final_project/ProfilePage.dart';
 import 'package:flutter/material.dart';
-import 'Login.dart';
-import 'Product_options.dart';
-import 'FirebaseAction.dart';
-import 'Settings.dart';
 
-class Home extends StatefulWidget {
+class Settings extends StatefulWidget {
+  const Settings({super.key});
+
   @override
-  State<Home> createState() => _HomeState();
+  State<Settings> createState() => _SettingsState();
 }
 
-class _HomeState extends State<Home> {
+class _SettingsState extends State<Settings> {
   @override
-  int _currentIndex = 0;
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.lightBlueAccent,
-            title: Padding(
-              padding: const EdgeInsets.only(left: 77),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'ZAWD',
-                    style: TextStyle(
-                      fontFamily: 'Bellota',
-                      fontSize: 30,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Icon(
-                    Icons.notifications_none_outlined,
+          backgroundColor: Colors.lightBlueAccent,
+          title: Padding(
+            padding: const EdgeInsets.only(left: 77),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'ZAWD',
+                  style: TextStyle(
+                    fontFamily: 'Bellota',
+                    fontSize: 30,
                     color: Colors.white,
-                  )
-                ],
-              ),
-            )),
+                  ),
+                ),
+                Icon(
+                  Icons.notifications_none_outlined,
+                  color: Colors.white,
+                )
+              ],
+            ),
+          ),
+        ),
         drawerScrimColor: Colors.black38,
         drawer: const NavigationDrawer(),
-        body: Container(),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.white,
-          currentIndex: _currentIndex,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled),
-              label: 'HOME',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              label: 'AUCTION HOUSE',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.list_alt),
-              label: 'BIDS',
-            ),
-          ],
-          onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-              // navigate to the corresponding page according to the index
-            });
-          },
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          backgroundColor: Colors.lightBlueAccent,
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Product_options()),
-            );
-          },
+        body: Text(
+          'This Page Is Under Instruction',
+          style: TextStyle(
+            fontFamily: 'Bellota',
+            fontSize: 40,
+            color: Colors.lightBlueAccent,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

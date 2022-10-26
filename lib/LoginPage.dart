@@ -1,5 +1,5 @@
-import 'package:final_project/Home.dart';
-import 'package:final_project/Signup.dart';
+import 'HomePage.dart';
+import 'package:final_project/SignupPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

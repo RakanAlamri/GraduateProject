@@ -1,61 +1,11 @@
-import 'package:final_project/Home.dart';
-import 'package:final_project/Login.dart';
-import 'package:final_project/profile.dart';
 import 'package:flutter/material.dart';
+import "HomePage.dart";
+import "ProfilePage.dart";
+import 'LoginPage.dart';
+import 'SettingsPage.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({super.key});
-
-  @override
-  State<Settings> createState() => _SettingsState();
-}
-
-class _SettingsState extends State<Settings> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.lightBlueAccent,
-            title: Padding(
-              padding: const EdgeInsets.only(left: 77),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'ZAWD',
-                    style: TextStyle(
-                      fontFamily: 'Bellota',
-                      fontSize: 30,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Icon(
-                    Icons.notifications_none_outlined,
-                    color: Colors.white,
-                  )
-                ],
-              ),
-            ),
-          ),
-          drawerScrimColor: Colors.black38,
-          drawer: const NavigationDrawer(),
-          body: Text(
-            'This Page Is Under Instruction',
-            style: TextStyle(
-              fontFamily: 'Bellota',
-              fontSize: 40,
-              color: Colors.lightBlueAccent,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-      ),
-    );
-  }
-}
-
-class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+class ProfileNavigationDrawer extends StatelessWidget {
+  const ProfileNavigationDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Drawer(
@@ -180,4 +130,3 @@ class NavigationDrawer extends StatelessWidget {
         ],
       );
 }
-

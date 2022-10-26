@@ -22,18 +22,18 @@ void updateProduct(key, data) async {
   await ref.set(data);
 }
 
-Future<DataSnapshot> getAllProduct() async {
+Future<Map<String, dynamic>> getAllProduct() async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();
   final snapShots = await ref.child("/Product").get();
-
-  return snapShots;
+  Map<String, dynamic> values = snapShots.value as Map<String, dynamic>;
+  return values;
 }
 
-Future<DataSnapshot> getProduct(key) async {
+Future<DatabaseEvent> getProduct(key) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();
-  final snapShots = await ref.child("/Product" + key).get();
+  final snapShots = await ref.child("/Product" + key).once();
 
   return snapShots;
 }
