@@ -1,5 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../Firebase/FirebaseAction.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:uuid/uuid.dart';
+import 'package:path/path.dart' as Path;
 
 class NewTrtansactions extends StatefulWidget {
   final Function addNewTransaction;
@@ -33,6 +39,49 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
     Navigator.of(context).pop();
   }
 
+  uploadImage() async {
+    print("upload");
+    final _firebaseStorage = FirebaseStorage.instance;
+    final _imagePicker = ImagePicker();
+    PickedFile image;
+    //Check Permissions
+    await Permission.photos.request();
+
+    PermissionStatus permissionStatus;
+    // In Android we need to request the storage permission,
+    // while in iOS is the photos permission
+    if (Platform.isAndroid) {
+      permissionStatus = await Permission.storage.request();
+    } else {
+      print("Request permision for photo");
+      permissionStatus = await Permission.photos.request();
+      print("Status>>>>" + permissionStatus.isGranted.toString());
+    }
+
+    if (permissionStatus.isGranted) {
+      //Select Image
+      image = (await _imagePicker.getImage(source: ImageSource.gallery))!;
+      var file = File(image.path);
+
+      if (image != null) {
+        //Upload to Firebase
+        var snapshot = await _firebaseStorage
+            .ref()
+            .child('images/imageName')
+            .putFile(file);
+
+        // var downloadUrl = await snapshot.ref.getDownloadURL();
+        // setState(() async {
+        //   imageUrl = downloadUrl;
+        // });
+      } else {
+        print('No Image Path Received');
+      }
+    } else {
+      print('Permission not granted. Try Again with permission access');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -55,6 +104,13 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
               keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData(),
             ),
+            Center(
+              child: GestureDetector(
+                child: const Text('Select An Image'),
+                //onTap:()=> Get.find<ImageController>().pickImage(),
+                onTap: () => uploadImage(),
+              ),
+            ),
             TextButton(
                 style: TextButton.styleFrom(
                   primary: Colors.purple,
@@ -66,4 +122,21 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
       ),
     );
   }
+}
+
+Widget CustomButton({
+  required String title,
+  required IconData icon,
+  required VoidCallback onClick,
+}) {
+  return Container(
+    width: 280,
+    color: Colors.blueAccent,
+    child: ElevatedButton(
+      onPressed: onClick,
+      child: Row(
+        children: [Icon(icon), SizedBox(width: 20), Text(title)],
+      ),
+    ),
+  );
 }
