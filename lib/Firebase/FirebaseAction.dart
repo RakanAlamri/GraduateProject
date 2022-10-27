@@ -22,11 +22,11 @@ void updateProduct(key, data) async {
   await ref.set(data);
 }
 
-Future<Map<String, dynamic>> getAllProduct() async {
+Future<Map<dynamic, dynamic>> getAllProduct() async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();
   final snapShots = await ref.child("/Product").get();
-  Map<String, dynamic> values = snapShots.value as Map<String, dynamic>;
+  Map<dynamic, dynamic> values = snapShots.value as Map<dynamic, dynamic>;
   return values;
 }
 
