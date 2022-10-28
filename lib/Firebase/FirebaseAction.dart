@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 void AddProduct(data) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   var uuid = Uuid().v4();
   DatabaseReference ref = database.ref("/Product/" + uuid);
-
   await ref.set(data);
 }
 

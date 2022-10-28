@@ -15,24 +15,28 @@ class TransactionsList extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.symmetric(
+                  margin: const EdgeInsets.symmetric(
                     vertical: 10,
-                    horizontal: 15,
+                    horizontal: 8,
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.purple,
-                      width: 2,
+                      color: Colors.white,
+                      width: 1,
                       style: BorderStyle.solid,
                     ),
                   ),
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.only(
+                    top: 10,
+                    bottom: 10,
+                    left: 10,
+                  ),
                   child: Text(
                     '\$${transactions[index].ProductPrice.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      color: Colors.purple,
+                    style: const TextStyle(
+                      color: Colors.lightBlue,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 18,
                     ),
                   ),
                 ),
@@ -41,7 +45,7 @@ class TransactionsList extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       transactions[index].ProductName,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 17,
@@ -49,12 +53,24 @@ class TransactionsList extends StatelessWidget {
                     ),
                     Text(
                       DateFormat.yMMMd().format(transactions[index].date),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.grey,
                       ),
                     ),
                   ],
-                )
+                ),
+                // Column(
+                //   children: <Widget>[
+                //     Text(
+                //       transactions[index].ProductDescription,
+                //       style: TextStyle(
+                //         color: Colors.black,
+                //         fontWeight: FontWeight.bold,
+                //         fontSize: 17,
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
             ),
           );
