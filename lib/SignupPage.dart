@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'HomePage.dart';
 import 'LoginPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import './Firebase/FirebaseAction.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -9,13 +10,22 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  void signup(email, password) async {
+  void signup(email, password, username, phone) async {
     try {
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      User? user = FirebaseAuth.instance.currentUser;
+
+      AddNewUser({
+        'id': user?.uid,
+        'Email': email,
+        'Username': username,
+        'Phone': phone
+      });
 
       Navigator.push(
         context,
@@ -34,13 +44,17 @@ class _SignupState extends State<Signup> {
 
   @override
   Widget build(BuildContext context) {
+    final emailController = TextEditingController();
     final usernameController = TextEditingController();
+    final phoneController = TextEditingController();
     final passwordController = TextEditingController();
 
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
+        home: Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -63,6 +77,7 @@ class _SignupState extends State<Signup> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: TextFormField(
+                          controller: usernameController,
                           keyboardType: TextInputType.name,
                           decoration: const InputDecoration(
                             labelText: 'username',
@@ -84,7 +99,7 @@ class _SignupState extends State<Signup> {
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: TextFormField(
                           keyboardType: TextInputType.name,
-                          controller: usernameController,
+                          controller: emailController,
                           decoration: const InputDecoration(
                             labelText: 'email',
                             hintText: 'email',
@@ -124,6 +139,7 @@ class _SignupState extends State<Signup> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: TextFormField(
+                        controller: phoneController,
                         keyboardType: TextInputType.visiblePassword,
                         onChanged: (String value) {},
                         decoration: const InputDecoration(
@@ -143,8 +159,8 @@ class _SignupState extends State<Signup> {
                       padding: const EdgeInsets.only(top: 20),
                       child: MaterialButton(
                         onPressed: () {
-                          signup(
-                              usernameController.text, passwordController.text);
+                          signup(emailController.text, passwordController.text,
+                              usernameController.text, phoneController.text);
                         },
                         child: const Text('Sign up'),
                         color: Colors.lightBlueAccent,
@@ -176,7 +192,7 @@ class _SignupState extends State<Signup> {
                               );
                             },
                             child: const Text(
-                              'LOG IN',
+                              'Sign up',
                               style: TextStyle(
                                   decoration: TextDecoration.underline),
                             ),
@@ -193,6 +209,6 @@ class _SignupState extends State<Signup> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

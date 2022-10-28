@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -30,10 +31,17 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
       titleController.text,
       double.parse(amountController.text),
     );
+
+    User? user = FirebaseAuth.instance.currentUser;
+
     AddProduct({
       'ProductName': titleController.text,
-      'ProductPrice': amountController.text,
-      'ProductDescription': ''
+      'ProductPrice': int.parse(amountController.text),
+      'ProductDescription': '',
+      'Owner': user?.uid,
+      'Rates': [],
+      'Rate': 0,
+      'Status': true
     });
 
     Navigator.of(context).pop();
