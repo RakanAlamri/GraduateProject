@@ -6,17 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 void AddProduct(data) async {
-  User? user = FirebaseAuth.instance.currentUser;
-
   FirebaseDatabase database = FirebaseDatabase.instance;
-  var pid = Uuid().v4();
-  DatabaseReference ref1 = database.ref("/Product/$pid");
-  await ref1.set(data);
+  final pid = Uuid().v4();
+  await database.ref("/Product/$pid").set(data);
   await database
       .ref("/Bidders/$pid")
       .set({data['Owner']: data['ProductPrice']});
-
-  Bid(pid, data['ProductPrice'] + 1);
 }
 
 void removeProduct(key) async {
@@ -40,12 +35,24 @@ Future<Map<dynamic, dynamic>> getAllProduct() async {
   return values;
 }
 
-Future<DatabaseEvent> getProduct(key) async {
+Future<Map<dynamic, dynamic>> getAllUserBids() async {
+  FirebaseDatabase database = FirebaseDatabase.instance;
+  final ref = FirebaseDatabase.instance.ref();
+  User? user = FirebaseAuth.instance.currentUser;
+
+  final snapShots = await ref.child("/UsersBids/ ${user!.uid}").once();
+  Map<dynamic, dynamic> values =
+      snapShots.snapshot.value as Map<dynamic, dynamic>;
+
+  return values;
+}
+
+Future<Map<dynamic, dynamic>> getProduct(key) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();
   final snapShots = await ref.child("/Product/" + key).once();
 
-  return snapShots;
+  return snapShots.snapshot.value as Map<dynamic, dynamic>;
 }
 
 void AddNewUser(data) async {
@@ -58,12 +65,17 @@ void AddNewUser(data) async {
 void Bid(pID, price) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   User? user = FirebaseAuth.instance.currentUser;
-  final userBid =
-      await FirebaseDatabase.instance.ref("/Bidders/${pID}/${user!.uid}");
-  await userBid.set({'bid': price});
+  final userBid = FirebaseDatabase.instance.ref("/Bidders/${pID}/${user!.uid}");
+  await userBid.set(price);
 
   final ref = FirebaseDatabase.instance.ref("/UsersBids/ ${user.uid}");
   await ref.set({pID: price});
 }
 
-void addComment(pid, comment) async {}
+void comments(pID, comments) async {
+  FirebaseDatabase database = FirebaseDatabase.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  var pid = Uuid().v4();
+  final userComments = FirebaseDatabase.instance.ref("/Comments/${pID}/${pid}");
+  await userComments.set({'uid': user!.uid, 'comment': comments});
+}

@@ -19,9 +19,10 @@ class _ProductListPageState extends State<ProductListPage> {
 
   void getProducts() async {
     var dataSnapshot = await getAllProduct();
+    final userBids = await getAllUserBids();
+    print(userBids);
 
     dataSnapshot.forEach((key, value) {
-      print(value);
       _addNewTransaction(
           value['ProductName'], double.parse(value['ProductPrice']));
     });

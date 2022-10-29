@@ -1,10 +1,11 @@
-import 'package:flutter/foundation.dart';
+import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Firebase/FirebaseAction.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import 'package:path/path.dart' as Path;
+import 'package:flutter/foundation.dart';
 
 class NewTrtansactions extends StatefulWidget {
   final Function addNewTransaction;
@@ -30,12 +31,20 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
     }
     widget.addNewTransaction(
       titleController.text,
-      double.parse(amountController.text),
+      enterdAmount,
     );
+
+    User? user = FirebaseAuth.instance.currentUser;
+
     AddProduct({
       'ProductName': titleController.text,
-      'ProductPrice': amountController.text,
-      'ProductDescription': DescriptionController.text,
+      'ProductPrice': enterdAmount,
+      'ProductDescription': '',
+      'Owner': user?.uid,
+      'Rates': [],
+      'Rate': 0,
+      'Status': true,
+      'Category': 'item'
     });
 
     Navigator.of(context).pop();
