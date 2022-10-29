@@ -145,11 +145,8 @@ class ProductDetails extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    // height: 200,
-                    child: ListView.builder(itemBuilder: (ctx, index) {
-                      // return
-                    }),
-                  )
+                      // height: 200,
+                      )
                 ],
               ),
             ),
