@@ -18,7 +18,13 @@ class _SignupState extends State<Signup> {
         password: password,
       );
 
-      AddNewUser({'Email': email, 'Username': username, 'Phone': phone});
+      AddNewUser({
+        'Email': email,
+        'Username': username,
+        'Phone': phone,
+        'Rates': [],
+        'Rate': 0,
+      });
 
       Navigator.push(
         context,
