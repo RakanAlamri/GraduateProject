@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/transaction.dart';
 import 'package:intl/intl.dart';
+import './product_details.dart';
 
 class TransactionsList extends StatelessWidget {
   final List<Transaction> transactions;
@@ -11,67 +12,61 @@ class TransactionsList extends StatelessWidget {
       height: 600,
       child: ListView.builder(
         itemBuilder: (ctx, index) {
-          return Card(
-            child: Row(
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.white,
-                      width: 1,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                    bottom: 10,
-                    left: 10,
-                  ),
-                  child: Text(
-                    '\$${transactions[index].ProductPrice.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      color: Colors.lightBlue,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
+          return GestureDetector(
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProductDetails(),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      transactions[index].ProductName,
-                      style: const TextStyle(
-                        color: Colors.black,
+              ),
+            },
+            child: Card(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 15,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.purple,
+                        width: 2,
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      '\$${transactions[index].ProductPrice.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold,
-                        fontSize: 17,
+                        fontSize: 20,
                       ),
                     ),
-                    Text(
-                      DateFormat.yMMMd().format(transactions[index].date),
-                      style: const TextStyle(
-                        color: Colors.grey,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        transactions[index].ProductName,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                // Column(
-                //   children: <Widget>[
-                //     Text(
-                //       transactions[index].ProductDescription,
-                //       style: TextStyle(
-                //         color: Colors.black,
-                //         fontWeight: FontWeight.bold,
-                //         fontSize: 17,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-              ],
+                      Text(
+                        DateFormat.yMMMd().format(transactions[index].date),
+                        style: TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           );
         },
