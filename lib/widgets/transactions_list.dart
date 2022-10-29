@@ -8,20 +8,20 @@ class TransactionsList extends StatelessWidget {
   TransactionsList(this.transactions);
   @override
   Widget build(BuildContext context) {
-    return new GestureDetector(
-      onTap: () => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ProductDetails(),
-          ),
-        ),
-      },
-      child: Container(
-        height: 600,
-        child: ListView.builder(
-          itemBuilder: (ctx, index) {
-            return Card(
+    return Container(
+      height: 600,
+      child: ListView.builder(
+        itemBuilder: (ctx, index) {
+          return GestureDetector(
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ProductDetails(),
+                ),
+              ),
+            },
+            child: Card(
               child: Row(
                 children: <Widget>[
                   Container(
@@ -67,10 +67,10 @@ class TransactionsList extends StatelessWidget {
                   )
                 ],
               ),
-            );
-          },
-          itemCount: transactions.length,
-        ),
+            ),
+          );
+        },
+        itemCount: transactions.length,
       ),
     );
   }

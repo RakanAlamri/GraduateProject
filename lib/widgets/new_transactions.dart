@@ -32,7 +32,7 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
     );
     AddProduct({
       'ProductName': titleController.text,
-      'ProductPrice': amountController.text,
+      'ProductPrice': enterdAmount,
       'ProductDescription': ''
     });
 
