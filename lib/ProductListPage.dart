@@ -21,9 +21,8 @@ class _ProductListPageState extends State<ProductListPage> {
     var dataSnapshot = await getAllProduct();
 
     dataSnapshot.forEach((key, value) {
-      print(value);
       _addNewTransaction(
-          value['ProductName'], double.parse(value['ProductPrice']));
+          value['ProductName'], value['ProductPrice'].toDouble());
     });
   }
 

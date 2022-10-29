@@ -1,10 +1,11 @@
-import 'package:flutter/foundation.dart';
+import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../Firebase/FirebaseAction.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as Path;
+import 'package:flutter/foundation.dart';
 
 class NewTrtansactions extends StatefulWidget {
   final Function addNewTransaction;
@@ -25,20 +26,29 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
     final enteredTitle = titleController.text;
     final enterdAmount = double.parse(amountController.text);
     final enteredDescrition = DescriptionController.text;
+
     if (enteredTitle.isEmpty || enterdAmount <= 0) {
       return;
     }
     widget.addNewTransaction(
       titleController.text,
-      double.parse(amountController.text),
+      enterdAmount,
     );
+
+    User? user = FirebaseAuth.instance.currentUser;
+    final expired_date = DateTime.now().add(const Duration(days: 50));
+
     AddProduct({
       'ProductName': titleController.text,
-      'ProductPrice': amountController.text,
-      'ProductDescription': DescriptionController.text,
+      'ProductPrice': enterdAmount,
+      'ProductDescription': enteredDescrition,
+      'Owner': user?.uid,
+      'Status': true,
+      'Category': 'item',
+      'ExpiredDate': expired_date.microsecondsSinceEpoch
     });
 
-    //Navigator.of(context).pop();
+    Navigator.of(context).pop();
   }
 
   File? _image;
@@ -69,7 +79,7 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
 
   Future<File> saveFilePermanently(String imagePath) async {
     final directory = await getApplicationDocumentsDirectory();
-    final name = basename(imagePath);
+    final name = Path.basename(imagePath);
     final image = File('${directory.path}/$name');
 
     return File(imagePath).copy(image.path);
