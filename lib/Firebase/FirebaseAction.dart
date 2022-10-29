@@ -55,6 +55,24 @@ Future<Map<dynamic, dynamic>> getProduct(key) async {
   return snapShots.snapshot.value as Map<dynamic, dynamic>;
 }
 
+Future<List<String>> searchProduct(name) async {
+  FirebaseDatabase database = FirebaseDatabase.instance;
+  final ref = FirebaseDatabase.instance.ref();
+  final snapShots = await ref.child("/Product").get();
+  Map<dynamic, dynamic> snapshotValue =
+      snapShots.value as Map<dynamic, dynamic>;
+  List<String> searchValue = [];
+
+  snapshotValue.forEach((key, value) {
+    var pn = value['ProductName'].toString().toLowerCase();
+    if (pn.contains(name)) {
+      searchValue.add('$pn;xxx;$key');
+    }
+  });
+
+  return searchValue;
+}
+
 void AddNewUser(data) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   User? user = FirebaseAuth.instance.currentUser;
