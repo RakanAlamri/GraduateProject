@@ -47,7 +47,7 @@ dependencies:
   permission_handler: ^10.2.0
   path_provider: ^2.0.11
   flutter_stetho: ^0.5.0
-
+  flutter_rating_bar: ^4.0.1
 
 
 dev_dependencies:

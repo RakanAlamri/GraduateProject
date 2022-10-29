@@ -17,7 +17,7 @@ class TransactionsList extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ProductDetails(),
+                  builder: (context) => ProductDetails(),
                 ),
               ),
             },
