@@ -26,6 +26,7 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
     final enteredTitle = titleController.text;
     final enterdAmount = double.parse(amountController.text);
     final enteredDescrition = DescriptionController.text;
+
     if (enteredTitle.isEmpty || enterdAmount <= 0) {
       return;
     }
@@ -35,16 +36,16 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
     );
 
     User? user = FirebaseAuth.instance.currentUser;
+    final expired_date = DateTime.now().add(const Duration(days: 50));
 
     AddProduct({
       'ProductName': titleController.text,
       'ProductPrice': enterdAmount,
-      'ProductDescription': '',
+      'ProductDescription': enteredDescrition,
       'Owner': user?.uid,
-      'Rates': [],
-      'Rate': 0,
       'Status': true,
-      'Category': 'item'
+      'Category': 'item',
+      'ExpiredDate': expired_date.microsecondsSinceEpoch
     });
 
     Navigator.of(context).pop();

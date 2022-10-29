@@ -18,15 +18,18 @@ class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
     final snapshot = await searchProduct(name);
 
     for (var element in snapshot) {
-      var value = element.split(';xxx;')[0];
-      var key = element.split(';xxx;')[1];
+      var splited = element.split(';xxx;');
+
+      var value = splited[0];
+      var key = splited[1];
+      var price = splited[2];
       searchKeys.add(key);
-      searchValue.add(value);
+      searchValue.add("$value ($price\$)");
     }
     return searchValue;
   }
 
-  void searchTab(index) {
+  void searchTab(index) async {
     var key = searchKeys[index];
     // from here you can pass it to product details
   }
