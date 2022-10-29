@@ -41,7 +41,8 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
       'Owner': user?.uid,
       'Rates': [],
       'Rate': 0,
-      'Status': true
+      'Status': true,
+      'Category': 'item'
     });
 
     Navigator.of(context).pop();

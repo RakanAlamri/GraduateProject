@@ -18,14 +18,7 @@ class _SignupState extends State<Signup> {
         password: password,
       );
 
-      User? user = FirebaseAuth.instance.currentUser;
-
-      AddNewUser({
-        'id': user?.uid,
-        'Email': email,
-        'Username': username,
-        'Phone': phone
-      });
+      AddNewUser({'Email': email, 'Username': username, 'Phone': phone});
 
       Navigator.push(
         context,
