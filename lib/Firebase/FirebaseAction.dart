@@ -40,16 +40,14 @@ Future<Map<dynamic, dynamic>> getAllProduct() async {
   return values;
 }
 
-Future<Map<dynamic, dynamic>> getAllUserBids() async {
+Future<Map<dynamic, dynamic>> getUserBids() async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();
   User? user = FirebaseAuth.instance.currentUser;
 
   final snapShots = await ref.child("/UsersBids/ ${user!.uid}").once();
-  Map<dynamic, dynamic> values =
-      snapShots.snapshot.value as Map<dynamic, dynamic>;
 
-  return values;
+  return snapShots.snapshot.value as Map<dynamic, dynamic>;
 }
 
 Future<Map<dynamic, dynamic>> getProduct(key) async {
@@ -70,7 +68,7 @@ Future<List<String>> searchProduct(name) async {
 
   snapshotValue.forEach((key, value) {
     var pn = value['ProductName'].toString().toLowerCase();
-    var price = value['ProductPrice'].toString().toLowerCase();
+    var price = value['ProductPrice'].toString();
     if (pn.contains(name)) {
       searchValue.add('$pn;xxx;$key;xxx;$price');
     }
@@ -121,17 +119,18 @@ void ChangeProductsDetails(pID, data) {
   database.ref("/Product/" + pID).set(data);
 }
 
-Future<Map<dynamic, dynamic>> getBids(pid) async {
+Future<MapEntry<dynamic, dynamic>> getBids(pid) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();
-  final snapShots = await ref.child("/Bidders/" + pid).orderByValue().once();
+  final snapShots = await ref.child("/Bidders/" + pid).once();
 
   Map<dynamic, dynamic> snapValues =
       snapShots.snapshot.value as Map<dynamic, dynamic>;
-  final orderedBids = Map.fromEntries(snapValues.entries.toList()
-    ..sort((e1, e2) => e2.value.compareTo(e1.value)));
 
-  return orderedBids;
+  final orderedBids = snapValues.entries.toList()
+    ..sort((e1, e2) => e2.value.compareTo(e1.value));
+
+  return orderedBids[0];
 }
 
 Future<Map<dynamic, dynamic>> getUser(uuid) async {
