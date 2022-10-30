@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'CustomSearchDelegate.dart';
 import 'HomePage.dart';
 import 'BidsPage.dart';
+import 'AuctionHouse.dart';
 
 int currentIndex = 0;
 
@@ -71,8 +72,8 @@ BottomNavigationBar getButtonBar(context, setState) {
 
         case 1:
           {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Home()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => AuctionHouse()));
           }
           break;
         case 2:
