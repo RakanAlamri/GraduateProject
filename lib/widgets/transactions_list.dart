@@ -39,7 +39,7 @@ class TransactionsList extends StatelessWidget {
                     ),
                     padding: EdgeInsets.all(10),
                     child: Text(
-                      '\$${transactions[index].ProductPrice.toStringAsFixed(2)}',
+                      '${transactions[index].ProductPrice.toStringAsFixed(2)} SAR',
                       style: TextStyle(
                         color: Colors.purple,
                         fontWeight: FontWeight.bold,

@@ -26,7 +26,7 @@ class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
       var key = splited[1];
       var price = splited[2];
       searchKeys.add(key);
-      searchValue.add("$value ($price\$)");
+      searchValue.add("$value ($price SAR)");
     }
     return searchValue;
   }
