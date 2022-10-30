@@ -1,3 +1,5 @@
+import 'package:final_project/models/transaction.dart';
+import 'package:final_project/widgets/product_details.dart';
 import 'package:flutter/material.dart';
 import './Firebase/FirebaseAction.dart';
 
@@ -24,14 +26,30 @@ class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
       var key = splited[1];
       var price = splited[2];
       searchKeys.add(key);
-      searchValue.add("$value ($price\$)");
+      searchValue.add("$value ($price SAR)");
     }
     return searchValue;
   }
 
-  void searchTab(index) async {
+  void searchTab(context, index) async {
     var key = searchKeys[index];
     // from here you can pass it to product details
+    final product = await getProduct(key);
+    Transaction t = Transaction(
+        id: key,
+        ProductName: product['ProductName'],
+        ProductDescription: product['ProductDescription'],
+        ProductPrice: double.parse(product['ProductPrice'].toString()),
+        date: product['ts'],
+        owner: product['Owner'],
+        ExpiredDate: product['ExpiredDate']);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProductDetails(t: t),
+      ),
+    );
   }
 
   @override
@@ -77,7 +95,7 @@ class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
               return ListTile(
                 title: Text(result),
                 onTap: () {
-                  searchTab(index);
+                  searchTab(context, index);
                 },
               );
             },

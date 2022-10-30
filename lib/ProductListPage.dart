@@ -19,20 +19,22 @@ class _ProductListPageState extends State<ProductListPage> {
 
   void getProducts() async {
     var dataSnapshot = await getAllProduct();
+    if (dataSnapshot == null) return;
 
     dataSnapshot.forEach((key, value) {
-      _addNewTransaction(
-          value['ProductName'], value['ProductPrice'].toDouble());
+      _addNewTransaction(key, value);
     });
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String id, final data) {
     final newT = Transaction(
-        id: DateTime.now().toString(),
-        ProductName: title,
-        ProductPrice: amount,
-        ProductDescription: "",
-        date: DateTime.now());
+        id: id,
+        ProductName: data['ProductName'],
+        ProductPrice: data['ProductPrice'].toDouble(),
+        ProductDescription: data['ProductDescription'],
+        date: data['ts'],
+        owner: data['Owner'],
+        ExpiredDate: data['ExpiredDate']);
 
     setState(() {
       _userTransactions.add(newT);

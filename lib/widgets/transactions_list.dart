@@ -6,6 +6,7 @@ import './product_details.dart';
 class TransactionsList extends StatelessWidget {
   final List<Transaction> transactions;
   TransactionsList(this.transactions);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +18,7 @@ class TransactionsList extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ProductDetails(),
+                  builder: (context) => ProductDetails(t: transactions[index]),
                 ),
               ),
             },
@@ -38,7 +39,7 @@ class TransactionsList extends StatelessWidget {
                     ),
                     padding: EdgeInsets.all(10),
                     child: Text(
-                      '\$${transactions[index].ProductPrice.toStringAsFixed(2)}',
+                      '${transactions[index].ProductPrice.toStringAsFixed(2)} SAR',
                       style: TextStyle(
                         color: Colors.purple,
                         fontWeight: FontWeight.bold,
@@ -58,7 +59,7 @@ class TransactionsList extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        DateFormat.yMMMd().format(transactions[index].date),
+                        transactions[index].ProductDescription,
                         style: TextStyle(
                           color: Colors.grey,
                         ),

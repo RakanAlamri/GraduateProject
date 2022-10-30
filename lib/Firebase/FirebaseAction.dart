@@ -1,10 +1,11 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 
-void AddProduct(data) async {
+void AddProduct(pid, data) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
-  final pid = const Uuid().v4();
   await database.ref("/Product/$pid").set(data);
   await database
       .ref("/Bidders/$pid")
@@ -26,6 +27,8 @@ void updateProduct(key, data) async {
 Future<Map<dynamic, dynamic>> getAllProduct() async {
   final ref = FirebaseDatabase.instance.ref();
   final snapShots = await ref.child("/Product").get();
+  if (snapShots.value == null) return {};
+
   Map<dynamic, dynamic> snapValues = snapShots.value as Map<dynamic, dynamic>;
   Map<dynamic, dynamic> values = {};
 
@@ -37,16 +40,14 @@ Future<Map<dynamic, dynamic>> getAllProduct() async {
   return values;
 }
 
-Future<Map<dynamic, dynamic>> getAllUserBids() async {
+Future<Map<dynamic, dynamic>> getUserBids() async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();
   User? user = FirebaseAuth.instance.currentUser;
 
   final snapShots = await ref.child("/UsersBids/ ${user!.uid}").once();
-  Map<dynamic, dynamic> values =
-      snapShots.snapshot.value as Map<dynamic, dynamic>;
 
-  return values;
+  return snapShots.snapshot.value as Map<dynamic, dynamic>;
 }
 
 Future<Map<dynamic, dynamic>> getProduct(key) async {
@@ -67,7 +68,7 @@ Future<List<String>> searchProduct(name) async {
 
   snapshotValue.forEach((key, value) {
     var pn = value['ProductName'].toString().toLowerCase();
-    var price = value['ProductPrice'].toString().toLowerCase();
+    var price = value['ProductPrice'].toString();
     if (pn.contains(name)) {
       searchValue.add('$pn;xxx;$key;xxx;$price');
     }
@@ -118,15 +119,44 @@ void ChangeProductsDetails(pID, data) {
   database.ref("/Product/" + pID).set(data);
 }
 
-Future<Map<dynamic, dynamic>> getBids(pid) async {
+Future<MapEntry<dynamic, dynamic>> getBids(pid) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();
-  final snapShots = await ref.child("/Bidders/" + pid).orderByValue().once();
+  final snapShots = await ref.child("/Bidders/" + pid).once();
 
   Map<dynamic, dynamic> snapValues =
       snapShots.snapshot.value as Map<dynamic, dynamic>;
-  final orderedBids = Map.fromEntries(snapValues.entries.toList()
-    ..sort((e1, e2) => e2.value.compareTo(e1.value)));
 
-  return orderedBids;
+  final orderedBids = snapValues.entries.toList()
+    ..sort((e1, e2) => e2.value.compareTo(e1.value));
+
+  return orderedBids[0];
+}
+
+Future<Map<dynamic, dynamic>> getUser(uuid) async {
+  FirebaseDatabase database = FirebaseDatabase.instance;
+  final ref = await FirebaseDatabase.instance.ref("/Users/ ${uuid}").once();
+  if (ref.snapshot.value == null) return {};
+
+  Map<dynamic, dynamic> snapValues =
+      ref.snapshot.value as Map<dynamic, dynamic>;
+
+  return snapValues;
+}
+
+void uploadImageProduct(pid, File image) async {
+  final storageRef = FirebaseStorage.instance.ref();
+  final imageRef = storageRef.child(pid);
+  await imageRef.putFile(image);
+}
+
+Future<String> getImageProduct(pid) async {
+  final storageRef = FirebaseStorage.instance.ref();
+  final imageRef = storageRef.child(pid);
+  try {
+    final URL = await imageRef.getDownloadURL();
+    return URL;
+  } on Exception {
+    return "";
+  }
 }
