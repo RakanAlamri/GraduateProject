@@ -1,10 +1,11 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:uuid/uuid.dart';
 
-void AddProduct(data) async {
+void AddProduct(pid, data) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
-  final pid = const Uuid().v4();
   await database.ref("/Product/$pid").set(data);
   await database
       .ref("/Bidders/$pid")
@@ -26,6 +27,8 @@ void updateProduct(key, data) async {
 Future<Map<dynamic, dynamic>> getAllProduct() async {
   final ref = FirebaseDatabase.instance.ref();
   final snapShots = await ref.child("/Product").get();
+  if (snapShots.value == null) return {};
+
   Map<dynamic, dynamic> snapValues = snapShots.value as Map<dynamic, dynamic>;
   Map<dynamic, dynamic> values = {};
 
@@ -129,4 +132,32 @@ Future<Map<dynamic, dynamic>> getBids(pid) async {
     ..sort((e1, e2) => e2.value.compareTo(e1.value)));
 
   return orderedBids;
+}
+
+Future<Map<dynamic, dynamic>> getUser(uuid) async {
+  FirebaseDatabase database = FirebaseDatabase.instance;
+  final ref = await FirebaseDatabase.instance.ref("/Users/ ${uuid}").once();
+  if (ref.snapshot.value == null) return {};
+
+  Map<dynamic, dynamic> snapValues =
+      ref.snapshot.value as Map<dynamic, dynamic>;
+
+  return snapValues;
+}
+
+void uploadImageProduct(pid, File image) async {
+  final storageRef = FirebaseStorage.instance.ref();
+  final imageRef = storageRef.child(pid);
+  await imageRef.putFile(image);
+}
+
+Future<String> getImageProduct(pid) async {
+  final storageRef = FirebaseStorage.instance.ref();
+  final imageRef = storageRef.child(pid);
+  try {
+    final URL = await imageRef.getDownloadURL();
+    return URL;
+  } on Exception {
+    return "";
+  }
 }

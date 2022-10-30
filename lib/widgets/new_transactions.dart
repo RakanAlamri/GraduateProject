@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import '../Firebase/FirebaseAction.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,10 +18,10 @@ class NewTrtansactions extends StatefulWidget {
 
 class _NewTrtansactionsState extends State<NewTrtansactions> {
   final titleController = TextEditingController();
-
   final amountController = TextEditingController();
-
   final DescriptionController = TextEditingController();
+  var pid;
+  File? _image;
 
   void submitData() {
     final enteredTitle = titleController.text;
@@ -30,28 +31,33 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
     if (enteredTitle.isEmpty || enterdAmount <= 0) {
       return;
     }
-    widget.addNewTransaction(
-      titleController.text,
-      enterdAmount,
-    );
-
     User? user = FirebaseAuth.instance.currentUser;
-    final expired_date = DateTime.now().add(const Duration(days: 50));
+    final expired_date = DateTime.now().add(const Duration(days: 3));
+    pid = const Uuid().v4();
 
-    AddProduct({
+    final data = {
       'ProductName': titleController.text,
       'ProductPrice': enterdAmount,
       'ProductDescription': enteredDescrition,
       'Owner': user?.uid,
       'Status': true,
       'Category': 'item',
-      'ExpiredDate': expired_date.microsecondsSinceEpoch
-    });
+      'ExpiredDate': expired_date.millisecondsSinceEpoch,
+      'ts': DateTime.now().millisecondsSinceEpoch
+    };
+
+    widget.addNewTransaction(
+      titleController.text,
+      data,
+    );
+    AddProduct(pid, data);
+    if (_image != null) {
+      uploadImageProduct(pid, _image!);
+    }
 
     Navigator.of(context).pop();
   }
 
-  File? _image;
   Uint8List webImage = Uint8List(8);
   Future getImage() async {
     if (!kIsWeb) {

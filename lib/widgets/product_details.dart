@@ -1,43 +1,83 @@
+import 'package:final_project/HomePage.dart';
+import 'package:final_project/models/transaction.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../ProfileNavigationDrawer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import '../Navbars.dart';
+import '../Firebase/FirebaseAction.dart';
 
 class ProductDetails extends StatelessWidget {
   String _title = 'G Class';
-  final String _onwer = 'Rak';
-  final double _price = 1000000;
-  final String _currency = 'SAR';
-  final String _description =
+  String _owner = 'Rak';
+  double _price = 1000000;
+  String _currency = 'SAR';
+  String _description =
       'product description, Gclass used like new. trip: 10000, Color: black, Model: G63';
   final String _biddersLable = 'Highest Bidders';
-  ProductDetails({super.key});
+  String _timer = "";
+  double _rate = 3.5;
+  String _ImageURL = '';
+
+  final Transaction t;
+  ProductDetails({super.key, required this.t});
+
+  Future<Map<dynamic, dynamic>> getProductInformation() async {
+    String picURL = await getImageProduct(t.id);
+    final userinfo = await getUser(t.owner);
+    userinfo['pic'] = picURL;
+    return userinfo;
+  }
+
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _title = t.ProductName;
+    _price = t.ProductPrice.toDouble();
+    _description = t.ProductDescription;
+    var dateNow = DateTime.now();
+    var expiredDate = DateTime.fromMillisecondsSinceEpoch(t.ExpiredDate);
+    expiredDate =
+        DateTime(expiredDate.year, expiredDate.month, expiredDate.day);
+    _timer = daysBetween(dateNow, expiredDate).toString() + " Days left";
+
+    return FutureBuilder(
+      future: getProductInformation(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          _owner = snapshot.data!['Username'];
+          _rate = snapshot.data!['Rate'];
+          if (snapshot.data!['pic'].toString().isNotEmpty)
+            _ImageURL = snapshot.data!['pic'];
+
+          return createWidget(context);
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  Image getImage(context) {
+    if (_ImageURL.isNotEmpty) {
+      return Image.network(
+        _ImageURL,
+        width: MediaQuery.of(context).size.width,
+        fit: BoxFit.cover,
+      );
+    } else {
+      return const Image(image: AssetImage('assets/images/defaultimage.png'));
+    }
+  }
+
+  Widget createWidget(context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.lightBlueAccent,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 77),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'ZAWD',
-                style: TextStyle(
-                  fontFamily: 'Bellota',
-                  fontSize: 30,
-                  color: Colors.white,
-                ),
-              ),
-              Icon(
-                Icons.notifications_none_outlined,
-                color: Colors.white,
-              )
-            ],
-          ),
-        ),
-      ),
+      appBar: getAppBar(context),
       drawerScrimColor: Colors.black38,
       drawer: const ProfileNavigationDrawer(),
       body: Container(
@@ -47,11 +87,7 @@ class ProductDetails extends StatelessWidget {
             children: <Widget>[
               Container(
                 padding: EdgeInsets.all(8.0),
-                child: Image.network(
-                  'https://thumbs.dreamstime.com/b/chisinau-moldova-mar%D1%81h-mercedes-benz-brabus-g-v-cv-g-amg-w-mercedes-benz-brabus-g-176915907.jpg',
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
-                ),
+                child: getImage(context),
               ),
               Container(
                 height: 300,
@@ -76,7 +112,7 @@ class ProductDetails extends StatelessWidget {
                             // padding: EdgeInsets.all(2),
                             child: Row(children: <Widget>[
                               Text(
-                                _onwer,
+                                _owner,
                                 style:
                                     TextStyle(color: Colors.grey, fontSize: 25),
                               ),
@@ -84,7 +120,7 @@ class ProductDetails extends StatelessWidget {
                                 itemSize: 20.0,
                                 maxRating: 5,
                                 ignoreGestures: true,
-                                initialRating: 3.5,
+                                initialRating: _rate,
                                 minRating: 1,
                                 direction: Axis.horizontal,
                                 allowHalfRating: true,
@@ -124,7 +160,7 @@ class ProductDetails extends StatelessWidget {
                             ),
                             Container(
                               padding: EdgeInsets.all(8.0),
-                              child: Text('timer'),
+                              child: Text(_timer),
                             )
                           ],
                         ),
