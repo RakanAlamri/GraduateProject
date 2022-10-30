@@ -1,3 +1,4 @@
+import 'package:final_project/BidsPage.dart';
 import 'package:flutter/material.dart';
 import "HomePage.dart";
 import "ProfilePage.dart";
@@ -26,13 +27,13 @@ class ProfileNavigationDrawer extends StatelessWidget {
         ),
         child: Row(
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               radius: 52,
               backgroundImage: NetworkImage(
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT25dmRWW9XDVDEfjggD1OzyJAsyox9ZWHSLn8-SiwNb3csMCSzOefYpKHa4m6-KfQf4g&usqp=CAU"),
             ),
             Column(
-              children: [
+              children: const [
                 Text(
                   'Yazeed Aloraini',
                   style: TextStyle(
@@ -83,43 +84,47 @@ class ProfileNavigationDrawer extends StatelessWidget {
               Icons.star,
               color: Colors.lightBlueAccent,
             ),
-            title: Text('Auction House'),
-            onTap: () {
-              print('side auction house is working');
-            },
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.list_alt,
-              color: Colors.lightBlueAccent,
-            ),
-            title: Text('Bids'),
-            onTap: () {
-              print('side bids is working');
-            },
-          ),
-          SizedBox(
-            height: 300,
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.settings,
-              color: Colors.lightBlueAccent,
-            ),
-            title: Text('Settings'),
+            title: const Text('Auction House'),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Settings()),
+                MaterialPageRoute(builder: (context) => Home()),
               );
             },
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
+              Icons.list_alt,
+              color: Colors.lightBlueAccent,
+            ),
+            title: const Text('Bids'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Bids()),
+              );
+            },
+          ),
+          const Divider(color: Colors.black54, endIndent: 5.0, indent: 5.0, height: 10.0),
+          ListTile(
+            leading: const Icon(
+              Icons.settings,
+              color: Colors.lightBlueAccent,
+            ),
+            title: const Text('Settings'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Settings()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(
               Icons.logout,
               color: Colors.lightBlueAccent,
             ),
-            title: Text('Log Out'),
+            title: const Text('Log Out'),
             onTap: () {
               Navigator.push(
                 context,

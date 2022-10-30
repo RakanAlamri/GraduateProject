@@ -91,106 +91,109 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
     return File(imagePath).copy(image.path);
   }
 
+  String? selectedItem;
+  List<String> items = [
+    "Car", "Clothing", "Shoes", "Book", "Electronics", "Furniture", "Accessories"
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TextField(
-              decoration: const InputDecoration(labelText: 'Product Name'),
-              // onChanged: (val) => titleInput = val,
-              controller: titleController,
-              onSubmitted: (_) => submitData(),
-            ),
-            TextField(
-              decoration: const InputDecoration(labelText: 'Product Price'),
-              // onChanged: (val) => amountString = val,
-              controller: amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => submitData(),
-            ),
-            TextField(
-              decoration:
-                  const InputDecoration(labelText: 'Product Description'),
-              // onChanged: (val) => amountString = val,
-              controller: DescriptionController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => submitData(),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: CustomButton(
-                  title: 'Pick from Gallery',
-                  icon: Icons.image_search_outlined,
-                  onClick: getImage),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Align(
-                alignment: Alignment.center,
-                child: kIsWeb
-                    ? webImage != null
-                        ? Image.memory(
-                            webImage,
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          )
-                        : const Text("There is no image!")
-                    : _image != null
-                        ? Image.file(
-                            _image!,
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          )
-                        : const Text("There is no image!")
-
-                // child: webImage == null
-                //     ? _image != null
-                //         ? Image.file(
-                //             _image!,
-                //             width: 100,
-                //             height: 100,
-                //             fit: BoxFit.cover,
-                //           )
-                //         : Text("There is no image!")
-                //     : Image.memory(
-                //         webImage,
-                //         width: 100,
-                //         height: 100,
-                //         fit: BoxFit.cover,
-                //       ),
-                // Image.network(
-                // 'https://imageio.forbes.com/specials-images/imageserve/5d35eacaf1176b0008974b54/0x0.jpg?format=jpg&crop=4560,2565,x790,y784,safe&width=1200',
-                // width: 100,
-                // height: 100,
-                // fit: BoxFit.cover,
-                // ),
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
+                decoration: const InputDecoration(labelText: 'Product Name'),
+                // onChanged: (val) => titleInput = val,
+                controller: titleController,
+                onSubmitted: (_) => submitData(),
+              ),
+              TextField(
+                decoration: const InputDecoration(labelText: 'Product Price'),
+                // onChanged: (val) => amountString = val,
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => submitData(),
+              ),
+              TextField(
+                decoration:
+                    const InputDecoration(labelText: 'Product Description'),
+                // onChanged: (val) => amountString = val,
+                controller: DescriptionController,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => submitData(),
+              ),
+              Center(
+                child: DropdownButton<String>(
+                  hint: const Text("Select The Category"),
+                  value: selectedItem,
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedItem = newValue;
+                    });
+                  },
+                  items: items.map((item) => DropdownMenuItem<String>(
+                    value: item,
+                    child: Text(item),
+                  )).toList(), 
                 ),
-            const SizedBox(
-              height: 40,
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: MaterialButton(
-                  color: Colors.lightBlueAccent,
-                  minWidth: 120,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: CustomButton(
+                    title: 'Pick from Gallery',
+                    icon: Icons.image_search_outlined,
+                    onClick: getImage),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Align(
+                  alignment: Alignment.center,
+                  child: kIsWeb
+                      ? webImage != null
+                          ? Image.memory(
+                              webImage,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            )
+                          : const Text("There is no image!")
+                      : _image != null
+                          ? Image.file(
+                              _image!,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            )
+                          : const Text("There is no image!")
                   ),
-                  onPressed: submitData,
-                  child: const Text('Add Transaction')),
-            ),
-          ],
+                  Align(
+                    alignment: Alignment.center,
+                    child: MaterialButton(
+                        color: Colors.lightBlueAccent,
+                        minWidth: 120,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        onPressed: submitData,
+                        child: const Text('Add Transaction')),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

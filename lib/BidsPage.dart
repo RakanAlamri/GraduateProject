@@ -15,7 +15,7 @@ class _BidsState extends State<Bids> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Colors.grey[300],
+        backgroundColor: Colors.white,
         appBar: getAppBar(context),
         drawerScrimColor: Colors.black38,
         drawer: const ProfileNavigationDrawer(),

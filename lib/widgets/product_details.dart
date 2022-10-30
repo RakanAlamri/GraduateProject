@@ -77,21 +77,38 @@ class ProductDetails extends StatelessWidget {
 
   Widget createWidget(context) {
     return Scaffold(
-      appBar: getAppBar(context),
-      drawerScrimColor: Colors.black38,
-      drawer: const ProfileNavigationDrawer(),
+      appBar: AppBar(
+      backgroundColor: Colors.lightBlueAccent,
+      automaticallyImplyLeading: true,
+      title: Padding(
+        padding: const EdgeInsets.only(left: 77),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: const [
+            Text(
+              'ZAWD',
+              style: TextStyle(
+                fontFamily: 'Bellota',
+                fontSize: 30,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      )),
+
       body: Container(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: getImage(context),
               ),
               Container(
                 height: 300,
-                margin: EdgeInsets.all(8.0),
+                margin: const EdgeInsets.all(8.0),
                 child: Card(
                   elevation: 5,
                   child: Column(
@@ -102,7 +119,7 @@ class ProductDetails extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             _title,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.blue,
                               fontSize: 40,
                               fontWeight: FontWeight.bold,
