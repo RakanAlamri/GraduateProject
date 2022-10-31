@@ -40,6 +40,23 @@ Future<Map<dynamic, dynamic>> getAllProduct() async {
   return values;
 }
 
+Future<Map<dynamic, dynamic>> getProductForUser() async {
+  final ref = FirebaseDatabase.instance.ref();
+  User? user = FirebaseAuth.instance.currentUser;
+  final snapShots = await ref.child("/Product").get();
+  if (snapShots.value == null) return {};
+
+  Map<dynamic, dynamic> snapValues = snapShots.value as Map<dynamic, dynamic>;
+  Map<dynamic, dynamic> values = {};
+
+  snapValues.forEach((key, value) {
+    if (value['Owner'] == user!.uid) {
+      values[key] = value;
+    }
+  });
+  return values;
+}
+
 Future<Map<dynamic, dynamic>> getUserBids() async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();

@@ -5,6 +5,8 @@ import './widgets/transactions_list.dart';
 import './Firebase/FirebaseAction.dart';
 
 class ProductListPage extends StatefulWidget {
+  String type;
+  ProductListPage(this.type, {super.key});
   @override
   State<ProductListPage> createState() => _ProductListPageState();
 }
@@ -12,13 +14,19 @@ class ProductListPage extends StatefulWidget {
 class _ProductListPageState extends State<ProductListPage> {
   final List<Transaction> _userTransactions = [];
   // Check if firebase_auth uid corresponds to document in db.
+
   void initState() {
     super.initState();
     getProducts();
   }
 
   void getProducts() async {
-    var dataSnapshot = await getAllProduct();
+    var dataSnapshot;
+    if (widget.type == "home")
+      dataSnapshot = await getAllProduct();
+    else
+      dataSnapshot = await getProductForUser();
+
     if (dataSnapshot == null) return;
 
     dataSnapshot.forEach((key, value) {

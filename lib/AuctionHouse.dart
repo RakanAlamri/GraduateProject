@@ -3,12 +3,12 @@ import 'ProfileNavigationDrawer.dart';
 import 'ProductListPage.dart';
 import 'Navbars.dart';
 
-class Home extends StatefulWidget {
+class AuctionHouse extends StatefulWidget {
   @override
-  State<Home> createState() => _HomeState();
+  State<AuctionHouse> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<AuctionHouse> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
           appBar: getAppBar(context),
           drawerScrimColor: Colors.black38,
           drawer: const ProfileNavigationDrawer(),
-          body: ProductListPage("home"),
+          body: ProductListPage("auction"),
           bottomNavigationBar: getButtonBar(context, setState)),
     );
   }
