@@ -42,115 +42,120 @@ class _ProfileState extends State<Profile> {
             )),
         drawerScrimColor: Colors.black38,
         drawer: const NavigationDrawer(),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Profile',
-              style: TextStyle(
-                  fontFamily: 'Bellota',
-                  fontSize: 35,
-                  color: Colors.lightBlueAccent,
-                  fontWeight: FontWeight.bold),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50),
-              child: Form(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                          keyboardType: TextInputType.name,
-                          decoration: const InputDecoration(
-                            labelText: 'username',
-                            hintText: 'username',
-                            prefixIcon: Icon(Icons.account_circle_outlined),
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (String value) {},
-                          validator: (value) {
-                            return value!.isEmpty
-                                ? 'Please enter username'
-                                : null;
-                          }),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                          keyboardType: TextInputType.name,
-                          decoration: const InputDecoration(
-                            labelText: 'email',
-                            hintText: 'email',
-                            prefixIcon: Icon(Icons.mail_outline),
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (String value) {},
-                          validator: (value) {
-                            return value!.isEmpty ? 'Please enter email' : null;
-                          }),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                        keyboardType: TextInputType.visiblePassword,
-                        onChanged: (String value) {},
-                        decoration: const InputDecoration(
-                          labelText: 'password',
-                          hintText: 'password',
-                          prefixIcon: Icon(Icons.lock_outline),
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          return value!.isEmpty
-                              ? 'Please enter password'
-                              : null;
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: TextFormField(
-                        keyboardType: TextInputType.visiblePassword,
-                        onChanged: (String value) {},
-                        decoration: const InputDecoration(
-                          labelText: 'phone number',
-                          hintText: 'phone number',
-                          prefixIcon: Icon(Icons.phone_iphone_rounded),
-                          border: OutlineInputBorder(),
-                        ),
-                        validator: (value) {
-                          return value!.isEmpty
-                              ? 'Please enter password'
-                              : null;
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: MaterialButton(
-                        onPressed: () {},
-                        child: const Text('Edit Profile'),
-                        color: Colors.lightBlueAccent,
-                        textColor: Colors.black,
-                        minWidth: 170,
-                      ),
-                    ),
-                  ],
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 40),
+                child: const Text(
+                  'Profile',
+                  style: TextStyle(
+                      fontFamily: 'Bellota',
+                      fontSize: 35,
+                      color: Colors.lightBlueAccent,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 50),
+                child: Form(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: TextFormField(
+                            keyboardType: TextInputType.name,
+                            decoration: const InputDecoration(
+                              labelText: 'username',
+                              hintText: 'username',
+                              prefixIcon: Icon(Icons.account_circle_outlined),
+                              border: OutlineInputBorder(),
+                            ),
+                            onChanged: (String value) {},
+                            validator: (value) {
+                              return value!.isEmpty
+                                  ? 'Please enter username'
+                                  : null;
+                            }),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: TextFormField(
+                            keyboardType: TextInputType.name,
+                            decoration: const InputDecoration(
+                              labelText: 'email',
+                              hintText: 'email',
+                              prefixIcon: Icon(Icons.mail_outline),
+                              border: OutlineInputBorder(),
+                            ),
+                            onChanged: (String value) {},
+                            validator: (value) {
+                              return value!.isEmpty ? 'Please enter email' : null;
+                            }),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
+                          onChanged: (String value) {},
+                          decoration: const InputDecoration(
+                            labelText: 'password',
+                            hintText: 'password',
+                            prefixIcon: Icon(Icons.lock_outline),
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            return value!.isEmpty
+                                ? 'Please enter password'
+                                : null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
+                          onChanged: (String value) {},
+                          decoration: const InputDecoration(
+                            labelText: 'phone number',
+                            hintText: 'phone number',
+                            prefixIcon: Icon(Icons.phone_iphone_rounded),
+                            border: OutlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            return value!.isEmpty
+                                ? 'Please enter password'
+                                : null;
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: MaterialButton(
+                          onPressed: () {},
+                          child: const Text('Edit Profile'),
+                          color: Colors.lightBlueAccent,
+                          textColor: Colors.black,
+                          minWidth: 170,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

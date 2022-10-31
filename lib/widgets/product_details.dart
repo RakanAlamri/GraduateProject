@@ -78,25 +78,24 @@ class ProductDetails extends StatelessWidget {
   Widget createWidget(context) {
     return Scaffold(
       appBar: AppBar(
-      backgroundColor: Colors.lightBlueAccent,
-      automaticallyImplyLeading: true,
-      title: Padding(
-        padding: const EdgeInsets.only(left: 77),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text(
-              'ZAWD',
-              style: TextStyle(
-                fontFamily: 'Bellota',
-                fontSize: 30,
-                color: Colors.white,
-              ),
+          backgroundColor: Colors.lightBlueAccent,
+          automaticallyImplyLeading: true,
+          title: Padding(
+            padding: const EdgeInsets.only(left: 77),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text(
+                  'ZAWD',
+                  style: TextStyle(
+                    fontFamily: 'Bellota',
+                    fontSize: 30,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      )),
-
+          )),
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -202,8 +201,28 @@ class ProductDetails extends StatelessWidget {
                         ),
                       ),
                       Container(
-                          // height: 200,
-                          )
+                        // height: 200,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              // HERE GOES THE NAME OF THE HIGHEST BIDDER
+                            ),
+                            MaterialButton(
+                              onPressed: () {},
+                              elevation: 10,
+                              color: Colors.lightBlueAccent,
+                              textColor: Colors.black,
+                              minWidth: 170,
+                              height: 40,
+                              child: const Text(
+                                'Bid',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),

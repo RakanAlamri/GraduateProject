@@ -58,7 +58,7 @@ class _SignupState extends State<Signup> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Padding(
-              padding: EdgeInsets.only(top: 50),
+              padding: EdgeInsets.only(top: 100),
               child: Text(
                 'Sign Up',
                 style: TextStyle(
@@ -81,7 +81,7 @@ class _SignupState extends State<Signup> {
                           decoration: const InputDecoration(
                             labelText: 'username',
                             hintText: 'username',
-                            prefixIcon: Icon(Icons.account_circle_rounded),
+                            prefixIcon: Icon(Icons.person_outline),
                             border: OutlineInputBorder(),
                           ),
                           onChanged: (String value) {},
@@ -102,7 +102,7 @@ class _SignupState extends State<Signup> {
                           decoration: const InputDecoration(
                             labelText: 'email',
                             hintText: 'email',
-                            prefixIcon: Icon(Icons.mail),
+                            prefixIcon: Icon(Icons.mail_outline),
                             border: OutlineInputBorder(),
                           ),
                           onChanged: (String value) {},
@@ -122,7 +122,7 @@ class _SignupState extends State<Signup> {
                         decoration: const InputDecoration(
                           labelText: 'password',
                           hintText: 'password',
-                          prefixIcon: Icon(Icons.lock),
+                          prefixIcon: Icon(Icons.lock_outline),
                           border: OutlineInputBorder(),
                         ),
                         validator: (value) {
@@ -190,13 +190,13 @@ class _SignupState extends State<Signup> {
                                     builder: (context) => Login()),
                               );
                             },
+                            minWidth: 0,
+                            textColor: Colors.lightBlueAccent,
                             child: const Text(
-                              'Sign up',
+                              'Log in',
                               style: TextStyle(
                                   decoration: TextDecoration.underline),
                             ),
-                            minWidth: 0,
-                            textColor: Colors.lightBlueAccent,
                           ),
                         ),
                       ],

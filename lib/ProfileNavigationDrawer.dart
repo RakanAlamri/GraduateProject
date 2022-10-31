@@ -81,7 +81,7 @@ class ProfileNavigationDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(
-              Icons.star,
+              Icons.balance,
               color: Colors.lightBlueAccent,
             ),
             title: const Text('Auction House'),
@@ -94,7 +94,7 @@ class ProfileNavigationDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(
-              Icons.list_alt,
+              Icons.view_list_rounded,
               color: Colors.lightBlueAccent,
             ),
             title: const Text('Bids'),
@@ -105,7 +105,7 @@ class ProfileNavigationDrawer extends StatelessWidget {
               );
             },
           ),
-          const Divider(color: Colors.black54, endIndent: 5.0, indent: 5.0, height: 10.0),
+          const Divider(color: Colors.black54, endIndent: 10.0, indent: 10.0, height: 10.0),
           ListTile(
             leading: const Icon(
               Icons.settings,

@@ -26,22 +26,22 @@ class TransactionsList extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.symmetric(
+                    margin: const EdgeInsets.symmetric(
                       vertical: 10,
                       horizontal: 15,
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.purple,
+                        color: Colors.green,
                         width: 2,
                         style: BorderStyle.solid,
                       ),
                     ),
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     child: Text(
                       '${transactions[index].ProductPrice.toStringAsFixed(2)} SAR',
-                      style: TextStyle(
-                        color: Colors.purple,
+                      style: const TextStyle(
+                        color: Colors.green,
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                       ),
@@ -52,7 +52,7 @@ class TransactionsList extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         transactions[index].ProductName,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 17,
@@ -60,7 +60,7 @@ class TransactionsList extends StatelessWidget {
                       ),
                       Text(
                         transactions[index].ProductDescription,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.grey,
                         ),
                       ),
