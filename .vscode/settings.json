@@ -1,3 +1,5 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "gitlens.currentLine.enabled": false,
+    "gitlens.hovers.annotations.details": false
 }
