@@ -65,11 +65,13 @@ class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
   }
 
   @override
-  Widget buildLeading(BuildContext context) {
+  Widget buildLeading(BuildContext context){
     return IconButton(
-      onPressed: () {},
       icon: const Icon(Icons.arrow_back),
-    );
+      onPressed: (){
+        Navigator.pop(context);
+      },
+      );
   }
 
   @override
