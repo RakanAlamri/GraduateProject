@@ -130,7 +130,7 @@ class ProductDetails extends StatelessWidget {
                               Text(
                                 _owner,
                                 style:
-                                    TextStyle(color: Colors.grey, fontSize: 25),
+                                    const TextStyle(color: Colors.grey, fontSize: 25),
                               ),
                               RatingBar.builder(
                                 itemSize: 20.0,
@@ -142,8 +142,8 @@ class ProductDetails extends StatelessWidget {
                                 allowHalfRating: true,
                                 itemCount: 5,
                                 itemPadding:
-                                    EdgeInsets.symmetric(horizontal: 4.0),
-                                itemBuilder: (context, _) => Icon(
+                                    const EdgeInsets.symmetric(horizontal: 4.0),
+                                itemBuilder: (context, _) => const Icon(
                                   Icons.star,
                                   color: Colors.blue,
                                 ),
@@ -165,7 +165,7 @@ class ProductDetails extends StatelessWidget {
                               decoration: BoxDecoration(
                                   color: Colors.amber[700],
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(4))),
+                                      const BorderRadius.all(Radius.circular(4))),
                               child: Text(
                                 _price.toStringAsFixed(1) + ' ' + _currency,
                                 style: TextStyle(

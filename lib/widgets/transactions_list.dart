@@ -6,6 +6,7 @@ import './product_details.dart';
 class TransactionsList extends StatelessWidget {
   final List<Transaction> transactions;
   TransactionsList(this.transactions);
+  String _ImageURL = '';
 
   @override
   Widget build(BuildContext context) {
@@ -25,30 +26,40 @@ class TransactionsList extends StatelessWidget {
             child: Card(
               child: Row(
                 children: <Widget>[
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 15,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.green,
-                        width: 2,
-                        style: BorderStyle.solid,
+                  Column(
+                    children: [
+                      Container(
+                        height: 100,
+                        width: 100,
+                        padding: const EdgeInsets.all(8.0),
+                        margin: const EdgeInsets.all(1.0),
+                        child: getImage(context),
                       ),
-                    ),
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      '${transactions[index].ProductPrice.toStringAsFixed(2)} SAR',
-                      style: const TextStyle(
-                        color: Colors.green,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 5,
+                          horizontal: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.green,
+                            width: 2,
+                            style: BorderStyle.solid,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          '${transactions[index].ProductPrice.toStringAsFixed(2)} SAR',
+                          style: const TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         transactions[index].ProductName,
@@ -74,5 +85,17 @@ class TransactionsList extends StatelessWidget {
         itemCount: transactions.length,
       ),
     );
+  }
+
+  Image getImage(context) {
+    if (_ImageURL.isNotEmpty) {
+      return Image.network(
+        _ImageURL,
+        width: MediaQuery.of(context).size.width,
+        fit: BoxFit.cover,
+      );
+    } else {
+      return const Image(image: AssetImage('assets/images/defaultimage.png'));
+    }
   }
 }
