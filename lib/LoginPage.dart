@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_const
+
 import 'HomePage.dart';
 import 'package:final_project/SignupPage.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,8 @@ class _LoginState extends State<Login> {
     }
   }
 
+  var obscureText = true;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,19 +44,27 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // const Padding(
+              //   padding: EdgeInsets.only(top: 100),
+              //   child: Text(
+              //     'Zawd',
+              //     style: TextStyle(
+              //         fontFamily: 'Bellota',
+              //         fontSize: 35,
+              //         color: Colors.lightBlueAccent,
+              //         fontWeight: FontWeight.bold),
+              //   ),
+              // ),
               const Padding(
-                padding: EdgeInsets.only(top: 100),
-                child: Text(
-                  'Zawd',
-                  style: TextStyle(
-                      fontFamily: 'Bellota',
-                      fontSize: 35,
-                      color: Colors.lightBlueAccent,
-                      fontWeight: FontWeight.bold),
+                padding: EdgeInsets.only(top: 50),
+                child: Image(
+                  image: AssetImage("assets/Logo/ZAWD.jpg"),
+                  height: 220,
+                  width: 220,
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 120),
+                padding: const EdgeInsets.symmetric(vertical: 40),
                 child: Form(
                     child: Column(
                   children: [
@@ -74,23 +86,34 @@ class _LoginState extends State<Login> {
                                 : null;
                           }),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: TextFormField(
                         controller: passwordController,
+                        obscureText: obscureText,
                         keyboardType: TextInputType.visiblePassword,
                         onChanged: (String value) {},
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Password',
                           hintText: 'password',
-                          prefixIcon: Icon(Icons.lock_outline_rounded),
-                          border: OutlineInputBorder(),
+                          prefixIcon: const Icon(Icons.lock_outline_rounded),
+                          border: const OutlineInputBorder(),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                obscureText = !obscureText;
+                              });
+                            },
+                            child: obscureText ? const Icon(Icons.visibility_off, color: Colors.grey,) : const Icon(Icons.visibility, color: Colors.grey,),
+                          ),
                         ),
                         validator: (value) {
-                          return value!.isEmpty ? 'Please enter password' : null;
+                          return value!.isEmpty
+                              ? 'Please enter password'
+                              : null;
                         },
                       ),
                     ),
@@ -126,15 +149,16 @@ class _LoginState extends State<Login> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => Signup()),
+                                MaterialPageRoute(
+                                    builder: (context) => Signup()),
                               );
                             },
                             minWidth: 0,
                             textColor: Colors.lightBlueAccent,
                             child: const Text(
                               'SIGN UP',
-                              style:
-                                  TextStyle(decoration: TextDecoration.underline),
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline),
                             ),
                           ),
                         ),
