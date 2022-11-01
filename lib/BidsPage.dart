@@ -18,7 +18,7 @@ class _BidsState extends State<Bids> {
         backgroundColor: Colors.white,
         appBar: getAppBar(context),
         drawerScrimColor: Colors.black38,
-        drawer: const ProfileNavigationDrawer(),
+        drawer: ProfileNavigationDrawer(),
         bottomNavigationBar: getButtonBar(context, setState),
       ),
     );

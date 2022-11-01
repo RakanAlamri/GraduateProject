@@ -33,9 +33,9 @@ class ProfileNavigationDrawer extends StatelessWidget {
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT25dmRWW9XDVDEfjggD1OzyJAsyox9ZWHSLn8-SiwNb3csMCSzOefYpKHa4m6-KfQf4g&usqp=CAU"),
             ),
             Column(
-              children: const [
+              children: [
                 Text(
-                  'Yazeed Aloraini',
+                  Login.Username,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -43,9 +43,9 @@ class ProfileNavigationDrawer extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'yazeed@gmail.com',
+                  Login.EMAIL,
                   style: TextStyle(fontSize: 12, color: Colors.white),
-                ),
+                )
               ],
             ),
           ],
@@ -105,7 +105,11 @@ class ProfileNavigationDrawer extends StatelessWidget {
               );
             },
           ),
-          const Divider(color: Colors.black54, endIndent: 10.0, indent: 10.0, height: 10.0),
+          const Divider(
+              color: Colors.black54,
+              endIndent: 10.0,
+              indent: 10.0,
+              height: 10.0),
           ListTile(
             leading: const Icon(
               Icons.settings,

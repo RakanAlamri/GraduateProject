@@ -15,7 +15,7 @@ class _HomeState extends State<AuctionHouse> {
       home: Scaffold(
           appBar: getAppBar(context),
           drawerScrimColor: Colors.black38,
-          drawer: const ProfileNavigationDrawer(),
+          drawer: ProfileNavigationDrawer(),
           body: ProductListPage("auction"),
           bottomNavigationBar: getButtonBar(context, setState)),
     );

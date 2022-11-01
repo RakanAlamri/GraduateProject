@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
+  static String EMAIL = "";
+  static String Username = "";
+
   @override
   State<Login> createState() => _LoginState();
 }
@@ -20,6 +23,8 @@ class _LoginState extends State<Login> {
         email: email,
         password: password,
       );
+
+      // save data
 
       Navigator.push(
         context,
@@ -107,7 +112,15 @@ class _LoginState extends State<Login> {
                                 obscureText = !obscureText;
                               });
                             },
-                            child: obscureText ? const Icon(Icons.visibility_off, color: Colors.grey,) : const Icon(Icons.visibility, color: Colors.grey,),
+                            child: obscureText
+                                ? const Icon(
+                                    Icons.visibility_off,
+                                    color: Colors.grey,
+                                  )
+                                : const Icon(
+                                    Icons.visibility,
+                                    color: Colors.grey,
+                                  ),
                           ),
                         ),
                         validator: (value) {
