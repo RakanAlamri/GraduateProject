@@ -18,6 +18,7 @@ class ProductDetails extends StatelessWidget {
   String _timer = "";
   double _rate = 3.5;
   String _ImageURL = '';
+  Map<dynamic, dynamic> _highestBid = {};
 
   final Transaction t;
   ProductDetails({super.key, required this.t});
@@ -26,6 +27,17 @@ class ProductDetails extends StatelessWidget {
     String picURL = await getImageProduct(t.id);
     final userinfo = await getUser(t.owner);
     userinfo['pic'] = picURL;
+    final highestbid = await getBids(t.id);
+
+    if (highestbid.key == '') {
+      _highestBid = {};
+      return userinfo;
+    }
+    final highestbidUser = await getUser(highestbid.key);
+    highestbidUser['price'] = highestbid.value;
+    _highestBid = highestbidUser;
+    ;
+
     return userinfo;
   }
 
@@ -73,6 +85,11 @@ class ProductDetails extends StatelessWidget {
     } else {
       return const Image(image: AssetImage('assets/images/defaultimage.png'));
     }
+  }
+
+  bool validateButton() {
+    return _highestBid['id'] != getCurrentUserID() &&
+        getCurrentUserID() != t.owner;
   }
 
   Widget createWidget(context) {
@@ -129,8 +146,8 @@ class ProductDetails extends StatelessWidget {
                             child: Row(children: <Widget>[
                               Text(
                                 _owner,
-                                style:
-                                    const TextStyle(color: Colors.grey, fontSize: 25),
+                                style: const TextStyle(
+                                    color: Colors.grey, fontSize: 25),
                               ),
                               RatingBar.builder(
                                 itemSize: 20.0,
@@ -164,8 +181,8 @@ class ProductDetails extends StatelessWidget {
                               padding: EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                   color: Colors.amber[700],
-                                  borderRadius:
-                                      const BorderRadius.all(Radius.circular(4))),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(4))),
                               child: Text(
                                 _price.toStringAsFixed(1) + ' ' + _currency,
                                 style: TextStyle(
@@ -193,7 +210,9 @@ class ProductDetails extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          _biddersLable,
+                          (_highestBid.isEmpty)
+                              ? "No bids"
+                              : "Highest bidder : ${_highestBid['Username']} ( ${_highestBid['price']} SAR )",
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -210,10 +229,12 @@ class ProductDetails extends StatelessWidget {
                                 ),
                             MaterialButton(
                               onPressed: () {
-                                Bid(t.id);
+                                if (validateButton()) Bid(t.id);
                               },
                               elevation: 10,
-                              color: Colors.lightBlueAccent,
+                              color: (validateButton())
+                                  ? Colors.lightBlueAccent
+                                  : Colors.grey,
                               textColor: Colors.black,
                               minWidth: 170,
                               height: 40,

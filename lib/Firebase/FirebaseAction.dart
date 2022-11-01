@@ -106,8 +106,14 @@ void Bid(String pID) async {
   User? user = FirebaseAuth.instance.currentUser;
   final userBid = FirebaseDatabase.instance.ref("/Bidders/${pID}/${user!.uid}");
   var highestBid = await getBids(pID);
+  var productInfo = await getProduct(pID);
+  double newBid = 0;
+  if (highestBid.key == '') {
+    newBid = productInfo['ProductPrice'];
+  } else {
+    newBid = double.parse(highestBid.value.toString());
+  }
 
-  var newBid = double.parse(highestBid.value.toString());
   newBid = newBid + (newBid * .10);
   await userBid.set(newBid);
   final ref = FirebaseDatabase.instance.ref("/UsersBids/ ${user.uid}");
@@ -143,6 +149,7 @@ Future<MapEntry<dynamic, dynamic>> getBids(pid) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   final ref = FirebaseDatabase.instance.ref();
   final snapShots = await ref.child("/Bidders/" + pid).once();
+  if (!snapShots.snapshot.exists) return const MapEntry('', '');
 
   Map<dynamic, dynamic> snapValues =
       snapShots.snapshot.value as Map<dynamic, dynamic>;
@@ -179,4 +186,10 @@ Future<String> getImageProduct(pid) async {
   } on Exception {
     return "";
   }
+}
+
+String getCurrentUserID() {
+  User? user = FirebaseAuth.instance.currentUser;
+
+  return user!.uid;
 }
