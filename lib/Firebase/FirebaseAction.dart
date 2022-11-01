@@ -101,14 +101,17 @@ void AddNewUser(data) async {
   await ref.set(data);
 }
 
-void Bid(pID, price) async {
+void Bid(String pID) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   User? user = FirebaseAuth.instance.currentUser;
   final userBid = FirebaseDatabase.instance.ref("/Bidders/${pID}/${user!.uid}");
-  await userBid.set(price);
+  var highestBid = await getBids(pID);
 
+  var newBid = double.parse(highestBid.value.toString());
+  newBid = newBid + (newBid * .10);
+  await userBid.set(newBid);
   final ref = FirebaseDatabase.instance.ref("/UsersBids/ ${user.uid}");
-  await ref.set({pID: price});
+  await ref.set({pID: newBid});
 }
 
 void comments(pID, comments) async {

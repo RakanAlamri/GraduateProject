@@ -206,10 +206,12 @@ class ProductDetails extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              // HERE GOES THE NAME OF THE HIGHEST BIDDER
-                            ),
+                                // HERE GOES THE NAME OF THE HIGHEST BIDDER
+                                ),
                             MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Bid(t.id);
+                              },
                               elevation: 10,
                               color: Colors.lightBlueAccent,
                               textColor: Colors.black,
