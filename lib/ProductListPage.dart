@@ -21,16 +21,22 @@ class _ProductListPageState extends State<ProductListPage> {
   }
 
   void getProducts() async {
-    var dataSnapshot;
-    if (widget.type == "home")
+    Map<dynamic, dynamic> dataSnapshot;
+    if (widget.type == "home") {
       dataSnapshot = await getAllProduct();
-    else
+    } else if (widget.type == 'bids') {
+      dataSnapshot = await getUserBids();
+    } else {
       dataSnapshot = await getProductForUser();
-
-    if (dataSnapshot == null) return;
+    }
+    if (dataSnapshot.isEmpty) {
+      print('${widget.type} has no records ');
+      return;
+    }
 
     dataSnapshot.forEach((key, value) async {
       String image = await getImageProduct(key);
+      if (image.isEmpty) image = '';
       value['URL'] = image;
       _addNewTransaction(key, value);
     });

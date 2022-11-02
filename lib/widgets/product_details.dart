@@ -92,6 +92,40 @@ class ProductDetails extends StatelessWidget {
         getCurrentUserID() != t.owner;
   }
 
+  Widget getModifyButton() {
+    if (getCurrentUserID() == t.owner) {
+      return ElevatedButton.icon(
+        onPressed: () {},
+        icon: const Icon(Icons.edit),
+        label: const Text('Modify'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.lightBlueAccent,
+          elevation: 7.0,
+          fixedSize: const Size(110.0, 30.0),
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  Widget getDeleteButton() {
+    if (getCurrentUserID() == t.owner) {
+      return ElevatedButton.icon(
+        onPressed: () {},
+        icon: const Icon(Icons.delete_forever),
+        label: const Text('Delete'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.red,
+          elevation: 7.0,
+          fixedSize: const Size(110.0, 30.0),
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
   Widget createWidget(context) {
     return Scaffold(
       appBar: AppBar(
@@ -227,10 +261,7 @@ class ProductDetails extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-
-
-                              //fixedSize: const Size(170.0, 30.0),
-
+                            //fixedSize: const Size(170.0, 30.0),
 
                             ElevatedButton.icon(
                               onPressed: () {
@@ -246,30 +277,8 @@ class ProductDetails extends StatelessWidget {
                                 fixedSize: const Size(110.0, 30.0),
                               ),
                             ),
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                
-                              },
-                              icon: const Icon(Icons.edit),
-                              label: const Text('Modify'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.lightBlueAccent,
-                                elevation: 7.0,
-                                fixedSize: const Size(110.0, 30.0),
-                              ),
-                            ),
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                
-                              },
-                              icon: const Icon(Icons.delete_forever),
-                              label: const Text('Delete'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red,
-                                elevation: 7.0,
-                                fixedSize: const Size(110.0, 30.0),
-                              ),
-                            ),
+                            getModifyButton(),
+                            getDeleteButton(),
                           ],
                         ),
                       ),

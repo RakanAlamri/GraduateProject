@@ -37,6 +37,7 @@ Future<Map<dynamic, dynamic>> getAllProduct() async {
       values[key] = value;
     }
   });
+
   return values;
 }
 
@@ -62,9 +63,19 @@ Future<Map<dynamic, dynamic>> getUserBids() async {
   final ref = FirebaseDatabase.instance.ref();
   User? user = FirebaseAuth.instance.currentUser;
 
-  final snapShots = await ref.child("/UsersBids/ ${user!.uid}").once();
+  final snapShots = await ref.child("/UsersBids/${user!.uid}").once();
 
-  return snapShots.snapshot.value as Map<dynamic, dynamic>;
+  Map<dynamic, dynamic> snapshotValue =
+      snapShots.snapshot.value as Map<dynamic, dynamic>;
+
+  final userBidsProucts = {};
+
+  for (final value in snapshotValue.entries.toList()) {
+    var userBids = await getProduct(value.key);
+    userBidsProucts[value.key] = userBids;
+  }
+
+  return userBidsProucts;
 }
 
 Future<Map<dynamic, dynamic>> getProduct(key) async {
@@ -116,8 +127,8 @@ void Bid(String pID) async {
 
   newBid = newBid + (newBid * .10);
   await userBid.set(newBid);
-  final ref = FirebaseDatabase.instance.ref("/UsersBids/ ${user.uid}");
-  await ref.set({pID: newBid});
+  final ref = FirebaseDatabase.instance.ref("/UsersBids/${user.uid}/$pID");
+  await ref.set(newBid);
 }
 
 void comments(pID, comments) async {
