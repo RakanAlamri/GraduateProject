@@ -288,7 +288,7 @@ class _ProductDetails extends State<ProductDetails> {
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           (_highestBid.isEmpty ||
-                                  _highestBid['id'] == getCurrentUserID())
+                                  _highestBid['id'] == widget.t.owner)
                               ? "No bids"
                               : "Highest bidder : ${_highestBid['Username']} ( ${_highestBid['price']} SAR )",
                           style: TextStyle(
