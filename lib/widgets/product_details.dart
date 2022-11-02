@@ -220,26 +220,58 @@ class ProductDetails extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        // height: 200,
-                      ),
+                          // height: 200,
+                          ),
                       Center(
                         heightFactor: 2.5,
-                        child: MaterialButton(
-                                onPressed: () {
-                                  if (validateButton()) Bid(t.id);
-                                },
-                                elevation: 10,
-                                color: (validateButton())
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+
+
+                              //fixedSize: const Size(170.0, 30.0),
+
+
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                if (validateButton()) Bid(t.id);
+                              },
+                              icon: const Icon(Icons.gavel_rounded),
+                              label: const Text('Bid'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: (validateButton())
                                     ? Colors.lightBlueAccent
                                     : Colors.grey,
-                                textColor: Colors.black,
-                                minWidth: 170,
-                                height: 40,
-                                child: const Text(
-                                  'Bid',
-                                  style: TextStyle(fontSize: 20),
-                                ),
+                                elevation: 7.0,
+                                fixedSize: const Size(110.0, 30.0),
                               ),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                
+                              },
+                              icon: const Icon(Icons.edit),
+                              label: const Text('Modify'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.lightBlueAccent,
+                                elevation: 7.0,
+                                fixedSize: const Size(110.0, 30.0),
+                              ),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                
+                              },
+                              icon: const Icon(Icons.delete_forever),
+                              label: const Text('Delete'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red,
+                                elevation: 7.0,
+                                fixedSize: const Size(110.0, 30.0),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
