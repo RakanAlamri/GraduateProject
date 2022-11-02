@@ -6,8 +6,20 @@ import '../ProfileNavigationDrawer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../Navbars.dart';
 import '../Firebase/FirebaseAction.dart';
+import 'Edit_product.dart';
+import '../Navbars.dart';
 
-class ProductDetails extends StatelessWidget {
+class ProductDetails extends StatefulWidget {
+  Transaction t;
+  ProductDetails({super.key, required this.t});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _ProductDetails();
+  }
+}
+
+class _ProductDetails extends State<ProductDetails> {
   String _title = 'G Class';
   String _owner = 'Rak';
   double _price = 1000000;
@@ -20,10 +32,36 @@ class ProductDetails extends StatelessWidget {
   String _ImageURL = '';
   Map<dynamic, dynamic> _highestBid = {};
 
-  final Transaction t;
-  ProductDetails({super.key, required this.t});
+  void _editProducts(String id, final data) {
+    widget.t = Transaction(data['URL'],
+        id: id,
+        ProductName: data['ProductName'],
+        ProductPrice: data['ProductPrice'].toDouble(),
+        ProductDescription: data['ProductDescription'],
+        date: data['ts'],
+        owner: data['Owner'],
+        ExpiredDate: data['ExpiredDate']);
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ProductDetails(
+              t: widget.t)), // this mainpage is your page to refresh.
+      (Route<dynamic> route) => false,
+    );
+  }
+
+  void _startEditProduct(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          return EditProudct(_editProducts, widget.t);
+        });
+  }
 
   Future<Map<dynamic, dynamic>> getProductInformation() async {
+    Transaction t = widget.t;
+
     String picURL = await getImageProduct(t.id);
     final userinfo = await getUser(t.owner);
     userinfo['pic'] = picURL;
@@ -36,7 +74,6 @@ class ProductDetails extends StatelessWidget {
     final highestbidUser = await getUser(highestbid.key);
     highestbidUser['price'] = highestbid.value;
     _highestBid = highestbidUser;
-    ;
 
     return userinfo;
   }
@@ -49,8 +86,9 @@ class ProductDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Transaction t = widget.t;
     _title = t.ProductName;
-    _price = t.ProductPrice.toDouble();
+    _price = t.ProductPrice;
     _description = t.ProductDescription;
     var dateNow = DateTime.now();
     var expiredDate = DateTime.fromMillisecondsSinceEpoch(t.ExpiredDate);
@@ -88,14 +126,18 @@ class ProductDetails extends StatelessWidget {
   }
 
   bool validateButton() {
+    Transaction t = widget.t;
     return _highestBid['id'] != getCurrentUserID() &&
         getCurrentUserID() != t.owner;
   }
 
-  Widget getModifyButton() {
+  Widget getModifyButton(final context) {
+    Transaction t = widget.t;
     if (getCurrentUserID() == t.owner) {
       return ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: () {
+          _startEditProduct(context);
+        },
         icon: const Icon(Icons.edit),
         label: const Text('Modify'),
         style: ElevatedButton.styleFrom(
@@ -109,10 +151,22 @@ class ProductDetails extends StatelessWidget {
     }
   }
 
-  Widget getDeleteButton() {
+  Widget getDeleteButton(final context) {
+    Transaction t = widget.t;
+
     if (getCurrentUserID() == t.owner) {
       return ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: () {
+          removeProduct(t.id);
+
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    Home()), // this mainpage is your page to refresh.
+            (Route<dynamic> route) => false,
+          );
+        },
         icon: const Icon(Icons.delete_forever),
         label: const Text('Delete'),
         style: ElevatedButton.styleFrom(
@@ -128,25 +182,8 @@ class ProductDetails extends StatelessWidget {
 
   Widget createWidget(context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.lightBlueAccent,
-          automaticallyImplyLeading: true,
-          title: Padding(
-            padding: const EdgeInsets.only(left: 77),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  'ZAWD',
-                  style: TextStyle(
-                    fontFamily: 'Bellota',
-                    fontSize: 30,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-          )),
+      appBar: getAppBar(context),
+      drawer: const ProfileNavigationDrawer(),
       body: Container(
         child: SingleChildScrollView(
           child: Column(
@@ -265,7 +302,7 @@ class ProductDetails extends StatelessWidget {
 
                             ElevatedButton.icon(
                               onPressed: () {
-                                if (validateButton()) Bid(t.id);
+                                if (validateButton()) Bid(widget.t.id);
                               },
                               icon: const Icon(Icons.gavel_rounded),
                               label: const Text('Bid'),
@@ -277,8 +314,8 @@ class ProductDetails extends StatelessWidget {
                                 fixedSize: const Size(110.0, 30.0),
                               ),
                             ),
-                            getModifyButton(),
-                            getDeleteButton(),
+                            getModifyButton(context),
+                            getDeleteButton(context),
                           ],
                         ),
                       ),

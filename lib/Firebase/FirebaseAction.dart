@@ -152,7 +152,6 @@ void ChangeProductsDetails(pID, data) {
       uid.toLowerCase() != data['Owner'].toString().toLowerCase()) {
     return;
   }
-
   database.ref("/Product/" + pID).set(data);
 }
 

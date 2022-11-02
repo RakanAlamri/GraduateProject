@@ -46,7 +46,7 @@ class _ProductListPageState extends State<ProductListPage> {
     final newT = Transaction(data['URL'],
         id: id,
         ProductName: data['ProductName'],
-        ProductPrice: data['ProductPrice'].toDouble(),
+        ProductPrice: double.parse(data['ProductPrice'].toString()),
         ProductDescription: data['ProductDescription'],
         date: data['ts'],
         owner: data['Owner'],
