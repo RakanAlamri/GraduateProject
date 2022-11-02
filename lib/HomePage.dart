@@ -11,47 +11,27 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-Future<Map<dynamic, dynamic>> getUserInfo() async {
+void getUserInfo() async {
   Login.EMAIL = (FirebaseAuth.instance.currentUser!.email == null)
       ? ""
       : FirebaseAuth.instance.currentUser!.email!;
 
-  final userInfo = await getUser(FirebaseAuth.instance.currentUser!.uid);
-  return userInfo;
+  var userinfo = await getUser(FirebaseAuth.instance.currentUser!.uid);
+  Login.Username = userinfo['Username'];
 }
 
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    if (Login.Username.isEmpty) {
-      return FutureBuilder(
-        future: getUserInfo(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            Login.Username = snapshot.data!['Username'];
+    getUserInfo();
 
-            return MaterialApp(
-              home: Scaffold(
-                  appBar: getAppBar(context),
-                  drawerScrimColor: Colors.black38,
-                  drawer: const ProfileNavigationDrawer(),
-                  body: ProductListPage("home"),
-                  bottomNavigationBar: getButtonBar(context, setState)),
-            );
-          } else {
-            return CircularProgressIndicator();
-          }
-        },
-      );
-    } else {
-      return MaterialApp(
-        home: Scaffold(
-            appBar: getAppBar(context),
-            drawerScrimColor: Colors.black38,
-            drawer: const ProfileNavigationDrawer(),
-            body: ProductListPage("home"),
-            bottomNavigationBar: getButtonBar(context, setState)),
-      );
-    }
+    return MaterialApp(
+      home: Scaffold(
+          appBar: getAppBar(context),
+          drawerScrimColor: Colors.black38,
+          drawer: const ProfileNavigationDrawer(),
+          body: ProductListPage("home"),
+          bottomNavigationBar: getButtonBar(context, setState)),
+    );
   }
 }
