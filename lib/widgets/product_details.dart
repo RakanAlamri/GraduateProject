@@ -221,31 +221,26 @@ class ProductDetails extends StatelessWidget {
                       ),
                       Container(
                         // height: 200,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                                // HERE GOES THE NAME OF THE HIGHEST BIDDER
+                      ),
+                      Center(
+                        heightFactor: 2.5,
+                        child: MaterialButton(
+                                onPressed: () {
+                                  if (validateButton()) Bid(t.id);
+                                },
+                                elevation: 10,
+                                color: (validateButton())
+                                    ? Colors.lightBlueAccent
+                                    : Colors.grey,
+                                textColor: Colors.black,
+                                minWidth: 170,
+                                height: 40,
+                                child: const Text(
+                                  'Bid',
+                                  style: TextStyle(fontSize: 20),
                                 ),
-                            MaterialButton(
-                              onPressed: () {
-                                if (validateButton()) Bid(t.id);
-                              },
-                              elevation: 10,
-                              color: (validateButton())
-                                  ? Colors.lightBlueAccent
-                                  : Colors.grey,
-                              textColor: Colors.black,
-                              minWidth: 170,
-                              height: 40,
-                              child: const Text(
-                                'Bid',
-                                style: TextStyle(fontSize: 20),
                               ),
-                            ),
-                          ],
-                        ),
-                      )
+                      ),
                     ],
                   ),
                 ),
