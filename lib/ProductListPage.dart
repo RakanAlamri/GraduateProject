@@ -43,7 +43,7 @@ class _ProductListPageState extends State<ProductListPage> {
   }
 
   void _addNewTransaction(String id, final data) {
-    final newT = Transaction(data['URL'],
+    final newT = Transaction((data['URL'] == null) ? "" : data['URL'],
         id: id,
         ProductName: data['ProductName'],
         ProductPrice: double.parse(data['ProductPrice'].toString()),

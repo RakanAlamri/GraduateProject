@@ -120,12 +120,13 @@ void Bid(String pID) async {
   var productInfo = await getProduct(pID);
   double newBid = 0;
   if (highestBid.key == '') {
-    newBid = productInfo['ProductPrice'];
+    newBid = double.parse(productInfo['ProductPrice'].toString());
   } else {
     newBid = double.parse(highestBid.value.toString());
   }
 
   newBid = newBid + (newBid * .10);
+  newBid = double.parse(newBid.toStringAsFixed(5));
   await userBid.set(newBid);
   final ref = FirebaseDatabase.instance.ref("/UsersBids/${user.uid}/$pID");
   await ref.set(newBid);

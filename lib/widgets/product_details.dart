@@ -74,6 +74,7 @@ class _ProductDetails extends State<ProductDetails> {
     final highestbidUser = await getUser(highestbid.key);
     highestbidUser['price'] = highestbid.value;
     _highestBid = highestbidUser;
+    _highestBid['id'] = highestbid.key;
 
     return userinfo;
   }
@@ -88,7 +89,7 @@ class _ProductDetails extends State<ProductDetails> {
   Widget build(BuildContext context) {
     Transaction t = widget.t;
     _title = t.ProductName;
-    _price = t.ProductPrice;
+    _price = double.parse(t.ProductPrice.toString());
     _description = t.ProductDescription;
     var dateNow = DateTime.now();
     var expiredDate = DateTime.fromMillisecondsSinceEpoch(t.ExpiredDate);
@@ -101,7 +102,7 @@ class _ProductDetails extends State<ProductDetails> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           _owner = snapshot.data!['Username'];
-          _rate = snapshot.data!['Rate'];
+          _rate = double.parse(snapshot.data!['Rate'].toString());
           if (snapshot.data!['pic'].toString().isNotEmpty)
             _ImageURL = snapshot.data!['pic'];
 
@@ -127,6 +128,11 @@ class _ProductDetails extends State<ProductDetails> {
 
   bool validateButton() {
     Transaction t = widget.t;
+
+    if (_highestBid.isEmpty == null) {
+      return true;
+    }
+
     return _highestBid['id'] != getCurrentUserID() &&
         getCurrentUserID() != t.owner;
   }
@@ -281,7 +287,8 @@ class _ProductDetails extends State<ProductDetails> {
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          (_highestBid.isEmpty)
+                          (_highestBid.isEmpty ||
+                                  _highestBid['id'] == getCurrentUserID())
                               ? "No bids"
                               : "Highest bidder : ${_highestBid['Username']} ( ${_highestBid['price']} SAR )",
                           style: TextStyle(
@@ -302,7 +309,18 @@ class _ProductDetails extends State<ProductDetails> {
 
                             ElevatedButton.icon(
                               onPressed: () {
-                                if (validateButton()) Bid(widget.t.id);
+                                if (validateButton()) {
+                                  Bid(widget.t.id);
+
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ProductDetails(
+                                            t: widget
+                                                .t)), // this mainpage is your page to refresh.
+                                    (Route<dynamic> route) => false,
+                                  );
+                                }
                               },
                               icon: const Icon(Icons.gavel_rounded),
                               label: const Text('Bid'),

@@ -46,14 +46,19 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
       'ts': DateTime.now().millisecondsSinceEpoch
     };
 
+    print('111111');
+
     widget.addNewTransaction(
       titleController.text,
       data,
     );
+
+    print('2222222222');
     AddProduct(pid, data);
     if (_image != null) {
       uploadImageProduct(pid, _image!);
     }
+    print('3333333');
 
     Navigator.of(context).pop();
   }
@@ -93,7 +98,13 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
 
   String? selectedItem;
   List<String> items = [
-    "Car", "Clothing", "Shoes", "Book", "Electronics", "Furniture", "Accessories"
+    "Car",
+    "Clothing",
+    "Shoes",
+    "Book",
+    "Electronics",
+    "Furniture",
+    "Accessories"
   ];
 
   @override
@@ -136,10 +147,12 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
                       selectedItem = newValue;
                     });
                   },
-                  items: items.map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(item),
-                  )).toList(), 
+                  items: items
+                      .map((item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(item),
+                          ))
+                      .toList(),
                 ),
               ),
               Align(
@@ -152,7 +165,6 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
               const SizedBox(
                 height: 20,
               ),
-              
               const SizedBox(
                 height: 10,
               ),
@@ -160,25 +172,24 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Align(
-                  alignment: Alignment.center,
-                  child: kIsWeb
-                      ? webImage != null
-                          ? Image.memory(
-                              webImage,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            )
-                          : const Text("There is no image!")
-                      : _image != null
-                          ? Image.file(
-                              _image!,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            )
-                          : const Text("There is no image!")
-                  ),
+                      alignment: Alignment.center,
+                      child: kIsWeb
+                          ? webImage != null
+                              ? Image.memory(
+                                  webImage,
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                )
+                              : const Text("There is no image!")
+                          : _image != null
+                              ? Image.file(
+                                  _image!,
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                )
+                              : const Text("There is no image!")),
                   Align(
                     alignment: Alignment.center,
                     child: MaterialButton(
