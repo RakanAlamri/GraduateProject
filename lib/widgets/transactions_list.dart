@@ -6,7 +6,6 @@ import './product_details.dart';
 class TransactionsList extends StatelessWidget {
   final List<Transaction> transactions;
   TransactionsList(this.transactions);
-  String _ImageURL = '';
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class TransactionsList extends StatelessWidget {
                         width: 100,
                         padding: const EdgeInsets.all(8.0),
                         margin: const EdgeInsets.all(1.0),
-                        child: getImage(context),
+                        child: getImage(context, transactions[index]),
                       ),
                       Container(
                         margin: const EdgeInsets.symmetric(
@@ -87,10 +86,10 @@ class TransactionsList extends StatelessWidget {
     );
   }
 
-  Image getImage(context) {
-    if (_ImageURL.isNotEmpty) {
+  Image getImage(context, Transaction product) {
+    if (product.URL.isNotEmpty) {
       return Image.network(
-        _ImageURL,
+        product.URL,
         width: MediaQuery.of(context).size.width,
         fit: BoxFit.cover,
       );

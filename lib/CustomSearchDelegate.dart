@@ -35,7 +35,7 @@ class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
     var key = searchKeys[index];
     // from here you can pass it to product details
     final product = await getProduct(key);
-    Transaction t = Transaction(
+    Transaction t = Transaction("",
         id: key,
         ProductName: product['ProductName'],
         ProductDescription: product['ProductDescription'],
@@ -65,13 +65,13 @@ class CustomSearchDelegate extends SearchDelegate<Future<Widget>> {
   }
 
   @override
-  Widget buildLeading(BuildContext context){
+  Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
-      onPressed: (){
+      onPressed: () {
         Navigator.pop(context);
       },
-      );
+    );
   }
 
   @override

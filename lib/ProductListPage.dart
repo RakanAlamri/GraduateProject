@@ -29,13 +29,15 @@ class _ProductListPageState extends State<ProductListPage> {
 
     if (dataSnapshot == null) return;
 
-    dataSnapshot.forEach((key, value) {
+    dataSnapshot.forEach((key, value) async {
+      String image = await getImageProduct(key);
+      value['URL'] = image;
       _addNewTransaction(key, value);
     });
   }
 
   void _addNewTransaction(String id, final data) {
-    final newT = Transaction(
+    final newT = Transaction(data['URL'],
         id: id,
         ProductName: data['ProductName'],
         ProductPrice: data['ProductPrice'].toDouble(),
