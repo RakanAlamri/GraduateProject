@@ -189,7 +189,6 @@ class _ProductDetails extends State<ProductDetails> {
   Widget createWidget(context) {
     return Scaffold(
       appBar: getAppBar(context),
-      drawer: const ProfileNavigationDrawer(),
       body: Container(
         child: SingleChildScrollView(
           child: Column(

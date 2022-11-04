@@ -44,16 +44,16 @@ BottomNavigationBar getButtonBar(context, setState) {
     currentIndex: currentIndex,
     items: const [
       BottomNavigationBarItem(
-        icon: Icon(Icons.home),
+        icon: Icon(Icons.home_outlined),
         label: 'HOME',
       ),
       BottomNavigationBarItem(
         icon: Icon(Icons.balance),
-        label: 'AUCTION HOUSE',
+        label: 'MY AUCTION',
       ),
       BottomNavigationBarItem(
-        icon: Icon(Icons.view_list_rounded),
-        label: 'BIDS',
+        icon: Icon(Icons.history),
+        label: 'HISTORY',
       ),
     ],
     onTap: (index) {

@@ -1,9 +1,10 @@
+import 'package:final_project/AuctionHouse.dart';
 import 'package:final_project/BidsPage.dart';
 import 'package:flutter/material.dart';
 import "HomePage.dart";
 import "ProfilePage.dart";
 import 'LoginPage.dart';
-import 'SettingsPage.dart';
+
 
 class ProfileNavigationDrawer extends StatelessWidget {
   const ProfileNavigationDrawer({Key? key}) : super(key: key);
@@ -27,24 +28,33 @@ class ProfileNavigationDrawer extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const CircleAvatar(
-              radius: 52,
-              backgroundImage: NetworkImage(
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT25dmRWW9XDVDEfjggD1OzyJAsyox9ZWHSLn8-SiwNb3csMCSzOefYpKHa4m6-KfQf4g&usqp=CAU"),
+            const SizedBox(
+              width: 3,
+            ),
+            const SizedBox(
+              width: 70,
+              child: CircleAvatar(
+                radius: 52,
+                backgroundImage: NetworkImage(
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTT25dmRWW9XDVDEfjggD1OzyJAsyox9ZWHSLn8-SiwNb3csMCSzOefYpKHa4m6-KfQf4g&usqp=CAU"),
+              ),
+            ),
+            const SizedBox(
+              width: 2,
             ),
             Column(
               children: [
                 Text(
                   Login.Username,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
                 Text(
                   Login.EMAIL,
-                  style: TextStyle(fontSize: 12, color: Colors.white),
+                  style: TextStyle(fontSize: 15, color: Colors.white),
                 )
               ],
             ),
@@ -55,7 +65,7 @@ class ProfileNavigationDrawer extends StatelessWidget {
         children: [
           ListTile(
             leading: const Icon(
-              Icons.home_filled,
+              Icons.home_outlined,
               color: Colors.lightBlueAccent,
             ),
             title: const Text('Home'),
@@ -68,7 +78,7 @@ class ProfileNavigationDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(
-              Icons.person,
+              Icons.person_outline,
               color: Colors.lightBlueAccent,
             ),
             title: const Text('Profile'),
@@ -84,20 +94,33 @@ class ProfileNavigationDrawer extends StatelessWidget {
               Icons.balance,
               color: Colors.lightBlueAccent,
             ),
-            title: const Text('Auction House'),
+            title: const Text('My Auction'),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Home()),
+                MaterialPageRoute(builder: (context) => AuctionHouse()),
               );
             },
           ),
           ListTile(
             leading: const Icon(
-              Icons.view_list_rounded,
+              Icons.history,
               color: Colors.lightBlueAccent,
             ),
-            title: const Text('Bids'),
+            title: const Text('History'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Bids()),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(
+              Icons.notifications_none_outlined,
+              color: Colors.lightBlueAccent,
+            ),
+            title: const Text('Notification'),
             onTap: () {
               Navigator.push(
                 context,
@@ -112,15 +135,25 @@ class ProfileNavigationDrawer extends StatelessWidget {
               height: 10.0),
           ListTile(
             leading: const Icon(
-              Icons.settings,
+              Icons.settings_outlined,
               color: Colors.lightBlueAccent,
             ),
             title: const Text('Settings'),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Settings()),
-              );
+              showDialog(
+                context: context, 
+                builder: (context) =>  AlertDialog(
+                  icon: Icon(Icons.construction),
+                  title: const Text('This Page Under Construction'), 
+                  content: const Text('We are sorry for the inconvenience, but this page is under construction'),
+                  actions: [
+                    TextButton(
+                      child: const Text('OK'),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                  ),
+                );
             },
           ),
           ListTile(
