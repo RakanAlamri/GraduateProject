@@ -36,17 +36,24 @@ class _ProductListPageState extends State<ProductListPage> {
 
     dataSnapshot.forEach((key, value) async {
       String image = await getImageProduct(key);
+      final highestPrice = await getBids(key);
       if (image.isEmpty) image = '';
       value['URL'] = image;
+      value['HighestPrice'] = highestPrice.value;
       _addNewTransaction(key, value);
     });
   }
 
   void _addNewTransaction(String id, final data) {
+    var price = data['ProductPrice'];
+    if (data['HighestPrice'] != "") price = data['HighestPrice'];
+
+    price = double.tryParse(price.toString());
+
     final newT = Transaction((data['URL'] == null) ? "" : data['URL'],
         id: id,
         ProductName: data['ProductName'],
-        ProductPrice: double.parse(data['ProductPrice'].toString()),
+        ProductPrice: price,
         ProductDescription: data['ProductDescription'],
         date: data['ts'],
         owner: data['Owner'],
