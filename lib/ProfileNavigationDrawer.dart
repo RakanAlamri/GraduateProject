@@ -143,7 +143,7 @@ class ProfileNavigationDrawer extends StatelessWidget {
               showDialog(
                 context: context, 
                 builder: (context) =>  AlertDialog(
-                  icon: Icon(Icons.construction),
+                  icon: const Icon(Icons.construction, color: Colors.red, size: 50),
                   title: const Text('This Page Under Construction'), 
                   content: const Text('We are sorry for the inconvenience, but this page is under construction'),
                   actions: [

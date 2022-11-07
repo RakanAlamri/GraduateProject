@@ -163,15 +163,41 @@ class _ProductDetails extends State<ProductDetails> {
     if (getCurrentUserID() == t.owner) {
       return ElevatedButton.icon(
         onPressed: () {
-          removeProduct(t.id);
+          showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              icon:
+                  const Icon(Icons.delete_forever, color: Colors.red, size: 50),
+              title: const Text(
+                  'Are you sure that you want to delete this auction?'),
+              content: const Text(
+                  'click OK if want to delete the auction, otherwise click Cancel.'),
+              actions: [
+                TextButton(
+                  style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.red),
+                  ),
+                  child: const Text('Delete', style: TextStyle(color: Colors.white),),
+                  onPressed: () {
+                    removeProduct(t.id);
 
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    Home()), // this mainpage is your page to refresh.
-            (Route<dynamic> route) => false,
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>Home()), // this mainpage is your page to refresh.
+                      (Route<dynamic> route) => false,
+                    );
+                  },
+                ),
+                TextButton(
+                  child: const Text('Cancel'),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
+            ),
           );
+
+          
         },
         icon: const Icon(Icons.delete_forever),
         label: const Text('Delete'),
