@@ -46,7 +46,11 @@ class _ProductListPageState extends State<ProductListPage> {
 
   void _addNewTransaction(String id, final data) {
     var price = data['ProductPrice'];
-    if (data['HighestPrice'] != "") price = data['HighestPrice'];
+    if (data['HighestPrice'] != "") {
+      price = data['HighestPrice'];
+    }
+
+    price ??= data['ProductPrice'];
 
     price = double.tryParse(price.toString());
 
