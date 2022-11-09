@@ -8,9 +8,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 class Login extends StatefulWidget {
   static String EMAIL = "";
   static String Username = "";
+  late _LoginState state;
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Login> createState() {
+    this.state = _LoginState();
+    return state;
+  }
+}
+
+enum LOGIN_STATE {
+  None,
+  Successful,
+  Wrong,
+  Error,
 }
 
 class _LoginState extends State<Login> {
@@ -18,22 +29,28 @@ class _LoginState extends State<Login> {
   final passwordController = TextEditingController();
 
   void Login(context, email, password) async {
+    LOGIN_STATE e = await ValidateLogin(email, password);
+    if (e == LOGIN_STATE.Successful) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Home()),
+      );
+    }
+  }
+
+  Future<LOGIN_STATE> ValidateLogin(email, password) async {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // save data
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Home()),
-      );
+      return LOGIN_STATE.Successful;
     } on FirebaseAuthException catch (e) {
-      print(e.code);
+      return LOGIN_STATE.Wrong;
     } catch (e) {
       print(e);
+      return LOGIN_STATE.Error;
     }
   }
 
