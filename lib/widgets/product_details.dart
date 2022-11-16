@@ -7,6 +7,7 @@ import '../Firebase/FirebaseAction.dart';
 import 'Edit_product.dart';
 import '../Navbars.dart';
 import 'package:flutter_paypal/flutter_paypal.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProductDetails extends StatefulWidget {
   Transaction t;
@@ -236,12 +237,36 @@ class _ProductDetails extends State<ProductDetails> {
                     note: "Contact us for any questions on your order.",
                     onSuccess: (Map params) async {
                       print("onSuccess: $params");
+                      Fluttertoast.showToast(
+                          msg: "Success",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.green,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                     },
                     onError: (error) {
                       print("onError: $error");
+                      Fluttertoast.showToast(
+                          msg: "Error",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                     },
                     onCancel: (params) {
                       print('cancelled: $params');
+                      Fluttertoast.showToast(
+                          msg: "Canceld",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.orange,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
                     })),
           );
         },
@@ -260,158 +285,161 @@ class _ProductDetails extends State<ProductDetails> {
 
   Widget createWidget(context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: getAppBar(context),
-      body: Container(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                child: getImage(context),
-              ),
-              Container(
-                height: 300,
-                margin: const EdgeInsets.all(8.0),
-                child: Card(
-                  elevation: 5,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Text(
-                            _title,
-                            style: const TextStyle(
-                              color: Colors.blue,
-                              fontSize: 40,
+      body: SingleChildScrollView(
+        child: Container(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: getImage(context),
+                ),
+                Container(
+                  height: 300,
+                  margin: const EdgeInsets.all(8.0),
+                  child: Card(
+                    elevation: 5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              _title,
+                              style: const TextStyle(
+                                color: Colors.blue,
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              // padding: EdgeInsets.all(2),
+                              child: Row(children: <Widget>[
+                                Text(
+                                  _owner,
+                                  style: const TextStyle(
+                                      color: Colors.grey, fontSize: 25),
+                                ),
+                                RatingBar.builder(
+                                  itemSize: 20.0,
+                                  maxRating: 5,
+                                  ignoreGestures: true,
+                                  initialRating: _rate,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemPadding: const EdgeInsets.symmetric(
+                                      horizontal: 4.0),
+                                  itemBuilder: (context, _) => const Icon(
+                                    Icons.star,
+                                    color: Colors.blue,
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    print(rating);
+                                  },
+                                ),
+                              ]),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Colors.amber[700],
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(4))),
+                                child: Text(
+                                  _price.toStringAsFixed(1) + ' ' + _currency,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                      color: Colors.white),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(_timer),
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            _description,
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            (_highestBid.isEmpty ||
+                                    _highestBid['id'] == widget.t.owner)
+                                ? "No bids"
+                                : "Highest bidder : ${_highestBid['Username']} ( ${_highestBid['price']} SAR )",
+                            style: TextStyle(
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Container(
-                            // padding: EdgeInsets.all(2),
-                            child: Row(children: <Widget>[
-                              Text(
-                                _owner,
-                                style: const TextStyle(
-                                    color: Colors.grey, fontSize: 25),
-                              ),
-                              RatingBar.builder(
-                                itemSize: 20.0,
-                                maxRating: 5,
-                                ignoreGestures: true,
-                                initialRating: _rate,
-                                minRating: 1,
-                                direction: Axis.horizontal,
-                                allowHalfRating: true,
-                                itemCount: 5,
-                                itemPadding:
-                                    const EdgeInsets.symmetric(horizontal: 4.0),
-                                itemBuilder: (context, _) => const Icon(
-                                  Icons.star,
-                                  color: Colors.blue,
-                                ),
-                                onRatingUpdate: (rating) {
-                                  print(rating);
+                        ),
+                        Container(
+                            // height: 200,
+                            ),
+                        Center(
+                          heightFactor: 2.5,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              //fixedSize: const Size(170.0, 30.0),
+
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  if (validateButton()) {
+                                    Bid(widget.t.id);
+
+                                    Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ProductDetails(
+                                              t: widget
+                                                  .t)), // this mainpage is your page to refresh.
+                                      (Route<dynamic> route) => false,
+                                    );
+                                  }
                                 },
+                                icon: const Icon(Icons.gavel_rounded),
+                                label: const Text('Bid'),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: (validateButton())
+                                      ? Colors.lightBlueAccent
+                                      : Colors.grey,
+                                  elevation: 7.0,
+                                  fixedSize: const Size(110.0, 30.0),
+                                ),
                               ),
-                            ]),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  color: Colors.amber[700],
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(4))),
-                              child: Text(
-                                _price.toStringAsFixed(1) + ' ' + _currency,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Colors.white),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(_timer),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          _description,
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          (_highestBid.isEmpty ||
-                                  _highestBid['id'] == widget.t.owner)
-                              ? "No bids"
-                              : "Highest bidder : ${_highestBid['Username']} ( ${_highestBid['price']} SAR )",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
+                              getModifyButton(context),
+                              getDeleteButton(context),
+                              getPayButton(context),
+                            ],
                           ),
                         ),
-                      ),
-                      Container(
-                          // height: 200,
-                          ),
-                      Center(
-                        heightFactor: 2.5,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            //fixedSize: const Size(170.0, 30.0),
-
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                if (validateButton()) {
-                                  Bid(widget.t.id);
-
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ProductDetails(
-                                            t: widget
-                                                .t)), // this mainpage is your page to refresh.
-                                    (Route<dynamic> route) => false,
-                                  );
-                                }
-                              },
-                              icon: const Icon(Icons.gavel_rounded),
-                              label: const Text('Bid'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: (validateButton())
-                                    ? Colors.lightBlueAccent
-                                    : Colors.grey,
-                                elevation: 7.0,
-                                fixedSize: const Size(110.0, 30.0),
-                              ),
-                            ),
-                            getModifyButton(context),
-                            getDeleteButton(context),
-                            getPayButton(context),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
