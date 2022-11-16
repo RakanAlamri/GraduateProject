@@ -118,7 +118,6 @@ class _NewTrtansactionsState extends State<NewTrtansactions> {
                   const InputDecoration(labelText: 'Product Description'),
               // onChanged: (val) => amountString = val,
               controller: DescriptionController,
-              keyboardType: TextInputType.number,
               onSubmitted: (_) => submitData(),
             ),
             const SizedBox(

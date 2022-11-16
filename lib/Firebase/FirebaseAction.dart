@@ -112,6 +112,13 @@ void AddNewUser(data) async {
   await ref.set(data);
 }
 
+void updatePhone(data) async {
+  FirebaseDatabase database = FirebaseDatabase.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  final ref = FirebaseDatabase.instance.ref("/Users/ ${user?.uid}/Phone");
+  await ref.set(data);
+}
+
 void Bid(String pID) async {
   FirebaseDatabase database = FirebaseDatabase.instance;
   User? user = FirebaseAuth.instance.currentUser;

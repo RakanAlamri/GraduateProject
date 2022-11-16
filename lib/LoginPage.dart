@@ -8,6 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 class Login extends StatefulWidget {
   static String EMAIL = "";
   static String Username = "";
+  static String Phone = "";
+
   late _LoginState state;
 
   @override

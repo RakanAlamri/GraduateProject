@@ -18,6 +18,7 @@ void getUserInfo() async {
 
   var userinfo = await getUser(FirebaseAuth.instance.currentUser!.uid);
   Login.Username = userinfo['Username'];
+  Login.Phone = userinfo['Phone'];
 }
 
 class _HomeState extends State<Home> {
