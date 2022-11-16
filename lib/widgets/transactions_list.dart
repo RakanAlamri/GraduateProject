@@ -10,7 +10,7 @@ class TransactionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 600,
+      height: 1100,
       child: ListView.builder(
         itemBuilder: (ctx, index) {
           return GestureDetector(

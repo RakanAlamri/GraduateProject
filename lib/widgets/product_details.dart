@@ -1,13 +1,12 @@
 import 'package:final_project/HomePage.dart';
 import 'package:final_project/models/transaction.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../ProfileNavigationDrawer.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../Navbars.dart';
 import '../Firebase/FirebaseAction.dart';
 import 'Edit_product.dart';
 import '../Navbars.dart';
+import 'package:flutter_paypal/flutter_paypal.dart';
 
 class ProductDetails extends StatefulWidget {
   Transaction t;
@@ -31,6 +30,13 @@ class _ProductDetails extends State<ProductDetails> {
   double _rate = 3.5;
   String _ImageURL = '';
   Map<dynamic, dynamic> _highestBid = {};
+  String clientId =
+      'AX_ojLqki3L611f-Azcw1kqbvO2AxA0LOw3-oE6orUIQ2mQAbvs7b_RnKx76-qUvKI1KN5DL6i1erkz3';
+  String secret =
+      'EA8_E5whS7qNbt5mamhMhXF1mWXa3hJzgf2RSIV734QM3VmeSt0k34yBmWlcVIquuDomYrmg9mWzB19u';
+
+  String returnURL = 'return.example.com';
+  String cancelURL = 'cancel.example.com';
 
   void _editProducts(String id, final data) {
     widget.t = Transaction(data['URL'],
@@ -186,6 +192,72 @@ class _ProductDetails extends State<ProductDetails> {
     }
   }
 
+  Widget getPayButton(final context) {
+    if (getCurrentUserID() == _highestBid['id'] &&
+        getCurrentUserID() != widget.t.owner) {
+      return ElevatedButton.icon(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (BuildContext context) => UsePaypal(
+                    sandboxMode: true,
+                    clientId: clientId,
+                    secretKey: secret,
+                    returnURL: returnURL,
+                    cancelURL: cancelURL,
+                    transactions: [
+                      {
+                        "amount": {
+                          "total": "0.1",
+                          "currency": "USD",
+                          "details": {
+                            "subtotal": "0.1",
+                            "shipping": '0',
+                            "shipping_discount": 0
+                          }
+                        },
+                        "description": "The payment transaction description.",
+                        // "payment_options": {
+                        //   "allowed_payment_method":
+                        //       "INSTANT_FUNDING_SOURCE"
+                        // },
+                        "item_list": {
+                          "items": [
+                            {
+                              "name": "A demo product",
+                              "quantity": 1,
+                              "price": "0.1",
+                              "currency": "USD"
+                            }
+                          ],
+                        }
+                      }
+                    ],
+                    note: "Contact us for any questions on your order.",
+                    onSuccess: (Map params) async {
+                      print("onSuccess: $params");
+                    },
+                    onError: (error) {
+                      print("onError: $error");
+                    },
+                    onCancel: (params) {
+                      print('cancelled: $params');
+                    })),
+          );
+        },
+        icon: const Icon(Icons.payment),
+        label: const Text('Pay'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Color.fromARGB(255, 1, 102, 242),
+          elevation: 7.0,
+          fixedSize: const Size(110.0, 30.0),
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
   Widget createWidget(context) {
     return Scaffold(
       appBar: getAppBar(context),
@@ -276,11 +348,9 @@ class _ProductDetails extends State<ProductDetails> {
                       ),
                       Container(
                         padding: EdgeInsets.all(8.0),
-                        child: Flexible(
-                          child: Text(
-                            _description,
-                            style: TextStyle(fontSize: 18),
-                          ),
+                        child: Text(
+                          _description,
+                          style: TextStyle(fontSize: 18),
                         ),
                       ),
                       Padding(
@@ -333,6 +403,7 @@ class _ProductDetails extends State<ProductDetails> {
                             ),
                             getModifyButton(context),
                             getDeleteButton(context),
+                            getPayButton(context),
                           ],
                         ),
                       ),

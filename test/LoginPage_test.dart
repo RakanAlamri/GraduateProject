@@ -22,11 +22,10 @@ void main() {
   late FirebaseAuth auth;
 
   const String kMockActionCode = '12345';
-  const String kMockEmail = 'test@example.com';
+  const String kMockEmail = 'test@test.com';
   const String kMockPassword = 'passw0rd';
   const String kMockIdToken = '12345';
   const String kMockAccessToken = '67890';
-  const String kMockGithubToken = 'github';
   const String kMockCustomToken = '12345';
   const String kMockPhoneNumber = '5555555555';
   const String kMockVerificationId = '12345';
@@ -142,26 +141,10 @@ void main() {
       when(mockAuthPlatform.getRedirectResult())
           .thenAnswer((_) async => mockUserCredPlatform!);
 
-      when(mockAuthPlatform.signInWithCustomToken(any))
-          .thenAnswer((_) async => mockUserCredPlatform!);
-
       when(mockAuthPlatform.signInWithEmailAndPassword(any, any))
           .thenAnswer((_) async => mockUserCredPlatform!);
 
-      when(mockAuthPlatform.signInWithEmailLink(any, any))
-          .thenAnswer((_) async => mockUserCredPlatform!);
-
-      when(mockAuthPlatform.signInWithPhoneNumber(any, any))
-          .thenAnswer((_) async => mockConfirmationResultPlatform!);
-
       when(mockVerifier!.delegate).thenReturn(mockVerifier!.mockDelegate);
-
-      when(mockAuthPlatform.signInWithPopup(any))
-          .thenAnswer((_) async => mockUserCredPlatform!);
-
-      when(mockAuthPlatform.signInWithRedirect(any))
-          .thenAnswer((_) async => mockUserCredPlatform);
-
       when(mockAuthPlatform.authStateChanges()).thenAnswer((_) =>
           Stream<UserPlatform>.fromIterable(<UserPlatform>[mockUserPlatform!]));
 

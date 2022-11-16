@@ -5,7 +5,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import './Firebase/FirebaseAction.dart';
 import 'LoginPage.dart';
 
-
 class Profile extends StatefulWidget {
   const Profile({super.key});
 
@@ -21,29 +20,27 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.white,
         appBar: AppBar(
             backgroundColor: Colors.lightBlueAccent,
-      actions: [
-        IconButton(
-            onPressed: () {
-              
-            },
-            icon: const Icon(Icons.notifications_none_outlined)),
-      ],
-      title: Padding(
-        padding: const EdgeInsets.only(left: 77),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text(
-              'ZAWD',
-              style: TextStyle(
-                fontFamily: 'Bellota',
-                fontSize: 30,
-                color: Colors.white,
+            actions: [
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.notifications_none_outlined)),
+            ],
+            title: Padding(
+              padding: const EdgeInsets.only(left: 77),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Text(
+                    'ZAWD',
+                    style: TextStyle(
+                      fontFamily: 'Bellota',
+                      fontSize: 30,
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      )),
+            )),
         drawerScrimColor: Colors.black38,
         drawer: const ProfileNavigationDrawer(),
         body: SingleChildScrollView(
@@ -72,7 +69,7 @@ class _ProfileState extends State<Profile> {
                         child: TextFormField(
                             keyboardType: TextInputType.name,
                             decoration: const InputDecoration(
-                              labelText: 'username',
+                              labelText: 'Login.Username.toString()',
                               hintText: 'username',
                               prefixIcon: Icon(Icons.account_circle_outlined),
                               border: OutlineInputBorder(),
@@ -99,7 +96,9 @@ class _ProfileState extends State<Profile> {
                             ),
                             onChanged: (String value) {},
                             validator: (value) {
-                              return value!.isEmpty ? 'Please enter email' : null;
+                              return value!.isEmpty
+                                  ? 'Please enter email'
+                                  : null;
                             }),
                       ),
                       const SizedBox(
@@ -165,4 +164,3 @@ class _ProfileState extends State<Profile> {
     );
   }
 }
-
