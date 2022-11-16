@@ -7,7 +7,5 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MaterialApp(
-    title: 'Zawd',
-    home: Login(),
-  ));
+      title: 'Zawd', home: Login(), debugShowCheckedModeBanner: false));
 }

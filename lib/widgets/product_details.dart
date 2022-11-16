@@ -38,6 +38,7 @@ class _ProductDetails extends State<ProductDetails> {
 
   String returnURL = 'return.example.com';
   String cancelURL = 'cancel.example.com';
+  int expiredDateDaysLeft = 0;
 
   void _editProducts(String id, final data) {
     widget.t = Transaction(data['URL'],
@@ -102,7 +103,12 @@ class _ProductDetails extends State<ProductDetails> {
     var expiredDate = DateTime.fromMillisecondsSinceEpoch(t.ExpiredDate);
     expiredDate =
         DateTime(expiredDate.year, expiredDate.month, expiredDate.day);
-    _timer = daysBetween(dateNow, expiredDate).toString() + " Days left";
+
+    expiredDateDaysLeft = daysBetween(dateNow, expiredDate);
+
+    _timer = (expiredDateDaysLeft < 0)
+        ? "(Ended)"
+        : expiredDateDaysLeft.toString() + " Days left";
 
     return FutureBuilder(
       future: getProductInformation(),
@@ -139,14 +145,44 @@ class _ProductDetails extends State<ProductDetails> {
     if (_highestBid.isEmpty == null) {
       return true;
     }
-
     return _highestBid['id'] != getCurrentUserID() &&
         getCurrentUserID() != t.owner;
   }
 
+  Widget getBidsButton(final context) {
+    Transaction t = widget.t;
+    if (getCurrentUserID() != t.owner && expiredDateDaysLeft >= 0) {
+      return ElevatedButton.icon(
+        onPressed: () {
+          if (validateButton()) {
+            Bid(widget.t.id);
+
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProductDetails(
+                      t: widget.t)), // this mainpage is your page to refresh.
+              (Route<dynamic> route) => false,
+            );
+          }
+        },
+        icon: const Icon(Icons.gavel_rounded),
+        label: const Text('Bid'),
+        style: ElevatedButton.styleFrom(
+          backgroundColor:
+              (validateButton()) ? Colors.lightBlueAccent : Colors.grey,
+          elevation: 7.0,
+          fixedSize: const Size(110.0, 30.0),
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
   Widget getModifyButton(final context) {
     Transaction t = widget.t;
-    if (getCurrentUserID() == t.owner) {
+    if (getCurrentUserID() == t.owner && expiredDateDaysLeft >= 0) {
       return ElevatedButton.icon(
         onPressed: () {
           _startEditProduct(context);
@@ -167,7 +203,7 @@ class _ProductDetails extends State<ProductDetails> {
   Widget getDeleteButton(final context) {
     Transaction t = widget.t;
 
-    if (getCurrentUserID() == t.owner) {
+    if (getCurrentUserID() == t.owner && expiredDateDaysLeft >= 0) {
       return ElevatedButton.icon(
         onPressed: () {
           removeProduct(t.id);
@@ -403,31 +439,7 @@ class _ProductDetails extends State<ProductDetails> {
                             children: [
                               //fixedSize: const Size(170.0, 30.0),
 
-                              ElevatedButton.icon(
-                                onPressed: () {
-                                  if (validateButton()) {
-                                    Bid(widget.t.id);
-
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ProductDetails(
-                                              t: widget
-                                                  .t)), // this mainpage is your page to refresh.
-                                      (Route<dynamic> route) => false,
-                                    );
-                                  }
-                                },
-                                icon: const Icon(Icons.gavel_rounded),
-                                label: const Text('Bid'),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: (validateButton())
-                                      ? Colors.lightBlueAccent
-                                      : Colors.grey,
-                                  elevation: 7.0,
-                                  fixedSize: const Size(110.0, 30.0),
-                                ),
-                              ),
+                              getBidsButton(context),
                               getModifyButton(context),
                               getDeleteButton(context),
                               getPayButton(context),

@@ -26,6 +26,7 @@ class _HomeState extends State<Home> {
     getUserInfo();
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
           appBar: getAppBar(context),
           drawerScrimColor: Colors.black38,
